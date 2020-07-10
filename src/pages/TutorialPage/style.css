@@ -9,3 +9,11 @@ p,
 li {
     font-size: 1.6rem;
 }
+
+pre {
+    font-size: 1.2rem;
+}
+
+.hljs {
+    padding: 1.5rem;
+}

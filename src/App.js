@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css";
+import "highlight.js/styles/atom-one-dark.css";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import Header from "./components/Header";
@@ -16,6 +17,7 @@ import { setUser } from "./redux/user/actions";
 class App extends Component {
     authenticate = (Page) => {
         const { isAuthenticated } = this.props;
+
         if (isAuthenticated) {
             return <Page />;
         }
@@ -24,6 +26,7 @@ class App extends Component {
 
     componentDidMount() {
         const { isValid, user } = checkToken();
+
         if (isValid) {
             this.props.setUser(user);
         }
