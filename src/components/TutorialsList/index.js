@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./style.css";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import { Card, CardTitle, CardImg, CardBody, CardFooter, Button, Badge } from "shards-react";
+import { Badge } from "shards-react";
 import { deleteTutorial } from "../../redux/tutorials/actions";
 import CardLoader from "../CardLoader";
 import moment from "moment";
@@ -13,31 +13,11 @@ class TutorialsList extends Component {
     };
 
     render() {
-        const { tutorials, currentUser, isLoading, isSearching, pageSize = 8 } = this.props;
+        const { tutorials, isLoading, isSearching, pageSize = 8 } = this.props;
 
-        const Tutorials = () => {
-            if (currentUser.userType === "admin" && this.props.match.path.includes("admin")) {
-                return tutorials.map((tutorial) => (
-                    <div className='card-item-admin text-decoration-none text-dark' key={tutorial.id}>
-                        <Card>
-                            <CardImg src={tutorial.thumbnailUrl} />
-                            <CardBody>
-                                <CardTitle>{tutorial.title}</CardTitle>
-                                <p>{tutorial.description}</p>
-                            </CardBody>
-                            <CardFooter className='d-flex justify-content-around'>
-                                <Button onClick={() => this.delTurorial(tutorial.id)} theme='danger'>
-                                    Xóa Bài
-                                </Button>
-                                <Link to={`${this.props.match.path}/update-tutorial/${tutorial.id}`}>
-                                    <Button theme='warning'>Chỉnh sửa</Button>
-                                </Link>
-                            </CardFooter>
-                        </Card>
-                    </div>
-                ));
-            } else {
-                return tutorials.map((tutorial) => (
+        return (
+            <div className='d-flex flex-wrap'>
+                {isLoading || isSearching ? <CardLoader numberOfCards={pageSize} /> : tutorials.map((tutorial) => (
                     <Link
                         to={`/tutorials/${tutorial.id}`}
                         className='card-item text-decoration-none text-dark'
@@ -61,13 +41,7 @@ class TutorialsList extends Component {
                             </div>
                         </div>
                     </Link>
-                ));
-            }
-        };
-
-        return (
-            <div className='d-flex flex-wrap'>
-                {isLoading || isSearching ? <CardLoader numberOfCards={pageSize} /> : <Tutorials />}
+                ))}
             </div>
         );
     }

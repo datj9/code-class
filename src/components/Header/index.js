@@ -18,7 +18,7 @@ const Header = (props) => {
     };
 
     return (
-        <nav className='navbar navbar-expand-md navbar-light bg-white'>
+        <nav className='navbar navbar-light bg-white'>
             <div className='container'>
                 <NavLink to='/' className='brand text-dark text-decoration-none'>
                     Code Class

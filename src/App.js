@@ -7,24 +7,13 @@ import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
-import AdminPage from "./pages/AdminPage";
-import CreateTutorialPage from "./pages/CreateTutorialPage";
+import TutorialPage from "./pages/TutorialPage";
+import SavedTutorialsPage from "./pages/SavedTutorialsPage";
 import checkToken from "./utils/checkToken";
 import { connect } from "react-redux";
 import { setUser } from "./redux/user/actions";
-import TutorialPage from "./pages/TutorialPage";
-import UpdateTutorialPage from "./pages/UpdateTutorialPage";
-import SavedTutorialsPage from "./pages/SavedTutorialsPage";
 
 class App extends Component {
-    authorize = (Page) => {
-        const { currentUser } = this.props;
-        if (currentUser.userType === "admin") {
-            return <Page />;
-        }
-        return <Redirect to='/' />;
-    };
-
     authenticate = (Page) => {
         const { isAuthenticated } = this.props;
         if (isAuthenticated) {
@@ -44,22 +33,11 @@ class App extends Component {
             <Router>
                 <Header />
                 <Switch>
+                    <Route exact path='/' component={HomePage} />
                     <Route exact path='/sign-up' component={SignUpPage} />
                     <Route exact path='/sign-in' component={SignInPage} />
                     <Route exact path='/tutorials/:tutorialId' component={TutorialPage} />
                     <Route exact path='/users/saved-tutorials' render={() => this.authenticate(SavedTutorialsPage)} />
-                    <Route exact path='/admin/tutorials' render={() => this.authorize(AdminPage)} />
-                    <Route
-                        exact
-                        path='/admin/tutorials/create-tutorial'
-                        render={() => this.authorize(CreateTutorialPage)}
-                    />
-                    <Route
-                        exact
-                        path='/admin/tutorials/update-tutorial/:tutorialId'
-                        render={() => this.authorize(UpdateTutorialPage)}
-                    />
-                    <Route exact path='/' component={HomePage} />
                 </Switch>
             </Router>
         );

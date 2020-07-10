@@ -8,6 +8,10 @@ import moment from "moment";
 import ContentLoader from "react-content-loader";
 import { Link } from "react-router-dom";
 import { saveTutorial, clearErrors } from "../../redux/user/actions";
+import hljs from 'highlight.js/lib/highlight';
+import javascript from 'highlight.js/lib/languages/javascript';
+
+hljs.registerLanguage('javascript', javascript);
 
 class TutorialPage extends Component {
     handleSaveTutorial = () => {
@@ -23,6 +27,14 @@ class TutorialPage extends Component {
     componentWillUnmount() {
         this.props.clearTutorialReq();
         this.props.clearUserStore();
+    }
+
+    componentDidUpdate() {
+        const nodes = document.querySelectorAll('pre');
+        console.log(nodes)
+        nodes.forEach((node) => {
+            hljs.highlightBlock(node);
+        });
     }
 
     render() {
