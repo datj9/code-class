@@ -8,11 +8,19 @@ import TutorialsList from "../../components/TutorialsList";
 class HomePage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { open: false, technologies: { ReactJS: false, JavaScript: false } };
+        this.state = {
+            openSearch: false,
+            openSort: false,
+            sortType: "",
+            technologies: { ReactJS: false, JavaScript: false },
+        };
     }
 
-    toggle = () => {
-        this.setState({ open: !this.state.open });
+    toggleSearch = () => {
+        this.setState({ openSearch: !this.state.openSearch });
+    };
+    toggleSort = () => {
+        this.setState({ openSort: !this.state.openSort });
     };
     handleTechChange = (e, tech) => {
         const technologies = this.state.technologies;
@@ -24,6 +32,9 @@ class HomePage extends React.Component {
         const searchTechnogies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
         this.props.searchTutorialsReq(searchTechnogies);
         this.toggle();
+    };
+    handleSortType = (sortType) => {
+        this.setState({ sortType });
     };
 
     componentDidMount() {
@@ -38,39 +49,54 @@ class HomePage extends React.Component {
             <div className='container py-5'>
                 <div className='breadcrumb-container'>
                     <span className='title text-dark font-weight-bold mb-3'>Bài hướng dẫn</span>
-                    <Dropdown toggle={this.toggle} open={this.state.open} className='d-table'>
-                        <DropdownToggle disabled={isSearching} onClick={this.toggle}>
-                            {isSearching ? "Đang tìm kiếm" : "Tìm kiếm theo"}
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            <DropdownItem disabled>Ngôn ngữ</DropdownItem>
+                    <div className='d-flex'>
+                        <Dropdown className='mr-1' open={this.state.openSort} toggle={this.toggleSort}>
+                            <DropdownToggle theme='secondary'>Sắp xếp theo</DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem onClick={() => this.handleSortType("DIFFICULTY_ASC")}>
+                                    Dễ - Khó
+                                </DropdownItem>
+                                <DropdownItem onClick={() => this.handleSortType("DIFFICULTY_DESC")}>
+                                    Khó - Dễ
+                                </DropdownItem>
+                                <DropdownItem onClick={() => this.handleSortType("VIEWS_DESC")}>
+                                    Lượt xem cao
+                                </DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                        <Dropdown toggle={this.toggleSearch} open={this.state.openSearch} className='d-table'>
+                            <DropdownToggle disabled={isSearching} onClick={this.toggle}>
+                                {isSearching ? "Đang tìm kiếm" : "Tìm kiếm theo"}
+                            </DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem disabled>Ngôn ngữ</DropdownItem>
+                                <FormCheckbox
+                                    className='ml-4'
+                                    checked={technologies.JavaScript}
+                                    onChange={(e) => this.handleTechChange(e, "JavaScript")}
+                                >
+                                    JavaScript
+                                </FormCheckbox>
 
-                            <FormCheckbox
-                                className='ml-4'
-                                checked={technologies.JavaScript}
-                                onChange={(e) => this.handleTechChange(e, "JavaScript")}
-                            >
-                                JavaScript
-                            </FormCheckbox>
-
-                            <DropdownItem divider />
-                            <DropdownItem disabled>Công nghệ</DropdownItem>
-                            <FormCheckbox
-                                className='ml-4'
-                                checked={technologies.ReactJS}
-                                onChange={(e) => this.handleTechChange(e, "ReactJS")}
-                            >
-                                ReactJS
-                            </FormCheckbox>
-                            <DropdownItem divider />
-                            <Button onClick={this.handleSearch} className='ml-4' theme='info'>
-                                Tìm kiếm
-                            </Button>
-                        </DropdownMenu>
-                    </Dropdown>
+                                <DropdownItem divider />
+                                <DropdownItem disabled>Công nghệ</DropdownItem>
+                                <FormCheckbox
+                                    className='ml-4'
+                                    checked={technologies.ReactJS}
+                                    onChange={(e) => this.handleTechChange(e, "ReactJS")}
+                                >
+                                    ReactJS
+                                </FormCheckbox>
+                                <DropdownItem divider />
+                                <Button onClick={this.handleSearch} className='ml-4' theme='info'>
+                                    Tìm kiếm
+                                </Button>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </div>
                 </div>
                 <hr />
-                <TutorialsList />
+                <TutorialsList sortType={this.state.sortType} />
             </div>
         );
     }
