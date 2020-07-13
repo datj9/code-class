@@ -28,6 +28,9 @@ class TutorialsList extends Component {
                 case "VIEWS_DESC":
                     tutorialsList = tutorials.sort((a, b) => b.views - a.views);
                     break;
+                case "MOST_RECENT":
+                    tutorialsList = tutorials.sort((a, b) => new Date(b) - new Date(a));
+                    break;
                 default:
                     tutorialsList = tutorials;
                     break;

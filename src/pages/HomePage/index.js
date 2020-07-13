@@ -62,6 +62,9 @@ class HomePage extends React.Component {
                                 <DropdownItem onClick={() => this.handleSortType("VIEWS_DESC")}>
                                     Lượt xem cao
                                 </DropdownItem>
+                                <DropdownItem onClick={() => this.handleSortType("MOST_RECENT")}>
+                                    Gần đây nhất
+                                </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                         <Dropdown toggle={this.toggleSearch} open={this.state.openSearch} className='d-table'>
