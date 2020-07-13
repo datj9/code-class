@@ -35,13 +35,13 @@ class TutorialPage extends Component {
                     <rect x='0' y='20' rx='4' ry='4' width='30' height='8' />
                     <rect x='270' y='20' rx='3' ry='3' width='30' height='15' />
                     <rect x='0' y='32' rx='4' ry='4' width='50' height='8' />
-                    <rect x='0' y='45' rx='3' ry='3' width='200' height='6' />
-                    <rect x='0' y='55' rx='3' ry='3' width='200' height='6' />
-                    <rect x='0' y='65' rx='3' ry='3' width='200' height='6' />
-                    <rect x='0' y='75' rx='3' ry='3' width='200' height='6' />
-                    <rect x='0' y='85' rx='3' ry='3' width='200' height='6' />
-                    <rect x='0' y='95' rx='3' ry='3' width='200' height='6' />
-                    <rect x='0' y='105' rx='3' ry='3' width='200' height='6' />
+                    <rect x='0' y='45' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='55' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='65' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='75' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='85' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='95' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='105' rx='3' ry='3' width='300' height='6' />
                 </ContentLoader>
             );
         };
