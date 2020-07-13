@@ -41,27 +41,19 @@ class TutorialPage extends Component {
         const { tutorial, currentUser, isLoading, isSaving, isAuthenticated, message } = this.props;
 
         const Loader = () => {
+            const contentLines = [];
+
+            for (let i = 0; i < 15; i++) {
+                contentLines.push(<rect x='0' y={45 + 10 * i + ""} rx='3' ry='3' width='300' height='6' />);
+            }
+
             return (
                 <ContentLoader style={{ width: "100%" }} viewBox='0 0 300 250'>
                     <rect x='0' y='0' rx='5' ry='5' width='200' height='12' />
                     <rect x='0' y='20' rx='4' ry='4' width='30' height='8' />
                     <rect x='270' y='20' rx='3' ry='3' width='30' height='15' />
                     <rect x='0' y='32' rx='4' ry='4' width='50' height='8' />
-                    <rect x='0' y='45' rx='3' ry='3' width='300' height='6' />
-                    <rect x='0' y='55' rx='3' ry='3' width='300' height='6' />
-                    <rect x='0' y='65' rx='3' ry='3' width='300' height='6' />
-                    <rect x='0' y='75' rx='3' ry='3' width='300' height='6' />
-                    <rect x='0' y='85' rx='3' ry='3' width='300' height='6' />
-                    <rect x='0' y='95' rx='3' ry='3' width='300' height='6' />
-                    <rect x='0' y='105' rx='3' ry='3' width='300' height='6' />
-                    <rect x='0' y='115' rx='3' ry='3' width='300' height='6' />
-                    <rect x='0' y='125' rx='3' ry='3' width='300' height='6' />
-                    <rect x='0' y='135' rx='3' ry='3' width='300' height='6' />
-                    <rect x='0' y='145' rx='3' ry='3' width='300' height='6' />
-                    <rect x='0' y='155' rx='3' ry='3' width='300' height='6' />
-                    <rect x='0' y='165' rx='3' ry='3' width='300' height='6' />
-                    <rect x='0' y='175' rx='3' ry='3' width='300' height='6' />
-                    <rect x='0' y='185' rx='3' ry='3' width='300' height='6' />
+                    {contentLines}
                 </ContentLoader>
             );
         };

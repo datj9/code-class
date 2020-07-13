@@ -50,7 +50,7 @@ class HomePage extends React.Component {
                 <div className='breadcrumb-container'>
                     <span className='title text-dark font-weight-bold mb-3'>Bài hướng dẫn</span>
                     <div className='d-flex'>
-                        <Dropdown className='mr-1' open={this.state.openSort} toggle={this.toggleSort}>
+                        <Dropdown className='mr-3' open={this.state.openSort} toggle={this.toggleSort}>
                             <DropdownToggle theme='secondary'>Sắp xếp theo</DropdownToggle>
                             <DropdownMenu>
                                 <DropdownItem onClick={() => this.handleSortType("DIFFICULTY_ASC")}>
