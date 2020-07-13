@@ -5,3 +5,8 @@ strong {
 .hl {
     background: rgb(126, 126, 126);
 }
+
+figure img {
+    width: 100%;
+    height: auto;
+}
