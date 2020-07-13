@@ -2,8 +2,9 @@ strong {
     font-weight: 600;
 }
 
-.hl {
-    background: rgb(126, 126, 126);
+pre {
+    padding: 0 !important;
+    font-size: 1.2rem;
 }
 
 figure img {
