@@ -3,7 +3,7 @@ import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
 import UploadAdapter from "../../adapter/UploadAdapter";
 import parse from "html-react-parser";
-import { FormInput, Button, Alert, FormCheckbox } from "shards-react";
+import { FormInput, Button, Alert, FormCheckbox, FormSelect } from "shards-react";
 import { connect } from "react-redux";
 import { uploadImage, fetchOneTutorial, updateTutorial, clearErrorsAndLink } from "../../redux/tutorials/actions";
 import { withRouter } from "react-router-dom";
@@ -16,6 +16,7 @@ class UpdateTutorialPage extends Component {
             title: "",
             description: "",
             gotTutorial: false,
+            difficultyLevel: 0,
             technologies: { ReactJS: false, JavaScript: false },
         };
     }
@@ -44,6 +45,10 @@ class UpdateTutorialPage extends Component {
         this.setState({ technologies });
     };
 
+    handleDifficulty = (e) => {
+        this.setState({ difficultyLevel: parseInt(e.target.value) });
+    };
+
     updateTutorial = () => {
         const techsObj = this.state.technologies;
         const searchTechnogies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
@@ -53,6 +58,7 @@ class UpdateTutorialPage extends Component {
             title: this.state.title,
             description: this.state.description,
             content: this.state.editorValue,
+            difficultyLevel: this.state.difficultyLevel,
             tags: searchTechnogies,
         });
     };
@@ -87,7 +93,7 @@ class UpdateTutorialPage extends Component {
     }
 
     render() {
-        const { editorValue, title, description, technologies } = this.state;
+        const { editorValue, title, description, technologies, difficultyLevel } = this.state;
         const { linkUrl, isUploading, isLoading, tutorial, message, errors } = this.props;
 
         const ThumbnailImage = () => {
@@ -112,6 +118,15 @@ class UpdateTutorialPage extends Component {
                 {errors.description && errors.description.includes("required") ? (
                     <div className='text-danger mb-3'>Vui lòng nhập mô tả</div>
                 ) : null}
+                <FormSelect className='mb-2' onChange={this.handleDifficulty}>
+                    <option invalid={errors.difficultyLevel ? true : false}>
+                        {errors.difficultyLevel ? "Vui lòng chọn độ khó" : `Độ khó: ${difficultyLevel}`}
+                    </option>
+                    <option value={1}>1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                </FormSelect>
                 <div>
                     <p>Chọn công nghệ: </p>
                     <FormCheckbox
@@ -151,7 +166,6 @@ class UpdateTutorialPage extends Component {
                 <CKEditor
                     editor={ClassicEditor}
                     data={tutorial.content}
-                    config={editorConfiguration}
                     onInit={(editor) => {
                         editor.ui.view.editable.element.style.height = "200px";
                         editor.plugins.get("FileRepository").createUploadAdapter = function (loader) {

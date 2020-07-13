@@ -1,24 +1,20 @@
 import React, { Component } from "react";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-editor-classic/src/classiceditor";
-import Essentials from "@ckeditor/ckeditor5-essentials/src/essentials";
-import Bold from "@ckeditor/ckeditor5-basic-styles/src/bold";
-import Italic from "@ckeditor/ckeditor5-basic-styles/src/italic";
-import Paragraph from "@ckeditor/ckeditor5-paragraph/src/paragraph";
-import Font from "@ckeditor/ckeditor5-font/src/font";
 import UploadAdapter from "../../adapter/UploadAdapter";
 import parse from "html-react-parser";
-import { FormInput, Button, Alert, FormCheckbox } from "shards-react";
+import { FormInput, Button, Alert, FormCheckbox, FormSelect } from "shards-react";
 import { connect } from "react-redux";
 import { uploadImage, createTutorial, clearErrorsAndLink } from "../../redux/tutorials/actions";
 
-const editorConfiguration = {
-    plugins: [Essentials, Bold, Italic, Paragraph],
-    toolbar: ["bold", "italic"],
-};
-
 class CreateTutorialPage extends Component {
-    state = { editorValue: "", title: "", description: "", technologies: { ReactJS: false, JavaScript: false } };
+    state = {
+        editorValue: "",
+        title: "",
+        description: "",
+        difficultyLevel: 0,
+        technologies: { ReactJS: false, JavaScript: false },
+    };
 
     handleEditorValue = (event, editor) => {
         const data = editor.getData();
@@ -43,6 +39,10 @@ class CreateTutorialPage extends Component {
         this.setState({ technologies });
     };
 
+    handleDifficulty = (e) => {
+        this.setState({ difficultyLevel: parseInt(e.target.value) });
+    };
+
     createTutorial = () => {
         const techsObj = this.state.technologies;
         const searchTechnogies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
@@ -52,6 +52,7 @@ class CreateTutorialPage extends Component {
             title: this.state.title,
             description: this.state.description,
             content: this.state.editorValue,
+            difficultyLevel: this.state.difficultyLevel,
             tags: searchTechnogies,
         });
     };
@@ -61,7 +62,7 @@ class CreateTutorialPage extends Component {
     }
 
     render() {
-        const { editorValue, technologies } = this.state;
+        const { editorValue, technologies, difficultyLevel } = this.state;
         const { linkUrl, isUploading, isLoading, message, errors } = this.props;
 
         const ThumbnailImage = () => {
@@ -86,6 +87,15 @@ class CreateTutorialPage extends Component {
                 {errors.description && errors.description.includes("required") ? (
                     <div className='text-danger mb-3'>Vui lòng nhập mô tả</div>
                 ) : null}
+                <FormSelect className='mb-2' onChange={this.handleDifficulty}>
+                    <option invalid={errors.difficultyLevel ? true : false}>
+                        {errors.difficultyLevel ? "Vui lòng chọn độ khó" : `Độ khó: ${difficultyLevel}`}
+                    </option>
+                    <option value={1}>1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                </FormSelect>
                 <div>
                     <p>Chọn công nghệ: </p>
                     <FormCheckbox
@@ -124,7 +134,6 @@ class CreateTutorialPage extends Component {
 
                 <CKEditor
                     editor={ClassicEditor}
-                    config={editorConfiguration}
                     data={editorValue}
                     onInit={(editor) => {
                         editor.ui.view.editable.element.style.height = "200px";
