@@ -8,10 +8,10 @@ import moment from "moment";
 import ContentLoader from "react-content-loader";
 import { Link } from "react-router-dom";
 import { saveTutorial, clearErrors } from "../../redux/user/actions";
-import hljs from 'highlight.js/lib/highlight';
-import javascript from 'highlight.js/lib/languages/javascript';
+import hljs from "highlight.js/lib/highlight";
+import javascript from "highlight.js/lib/languages/javascript";
 
-hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage("javascript", javascript);
 
 class TutorialPage extends Component {
     handleSaveTutorial = () => {
@@ -30,8 +30,8 @@ class TutorialPage extends Component {
     }
 
     componentDidUpdate() {
-        const nodes = document.querySelectorAll('pre');
-        console.log(nodes)
+        const nodes = document.querySelectorAll("pre");
+        console.log(nodes);
         nodes.forEach((node) => {
             hljs.highlightBlock(node);
         });
@@ -47,13 +47,21 @@ class TutorialPage extends Component {
                     <rect x='0' y='20' rx='4' ry='4' width='30' height='8' />
                     <rect x='270' y='20' rx='3' ry='3' width='30' height='15' />
                     <rect x='0' y='32' rx='4' ry='4' width='50' height='8' />
-                    <rect x='0' y='45' rx='3' ry='3' width='200' height='6' />
-                    <rect x='0' y='55' rx='3' ry='3' width='200' height='6' />
-                    <rect x='0' y='65' rx='3' ry='3' width='200' height='6' />
-                    <rect x='0' y='75' rx='3' ry='3' width='200' height='6' />
-                    <rect x='0' y='85' rx='3' ry='3' width='200' height='6' />
-                    <rect x='0' y='95' rx='3' ry='3' width='200' height='6' />
-                    <rect x='0' y='105' rx='3' ry='3' width='200' height='6' />
+                    <rect x='0' y='45' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='55' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='65' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='75' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='85' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='95' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='105' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='115' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='125' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='135' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='145' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='155' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='165' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='175' rx='3' ry='3' width='300' height='6' />
+                    <rect x='0' y='185' rx='3' ry='3' width='300' height='6' />
                 </ContentLoader>
             );
         };
