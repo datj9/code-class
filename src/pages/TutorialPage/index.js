@@ -56,7 +56,7 @@ class TutorialPage extends Component {
             }
 
             return (
-                <ContentLoader style={{ width: "100%" }} viewBox='0 0 300 250'>
+                <ContentLoader style={{ width: "100%" }} viewBox='0 0 300 330'>
                     <rect x='0' y='0' rx='5' ry='5' width='200' height='12' />
                     <rect x='0' y='20' rx='4' ry='4' width='30' height='8' />
                     <rect x='270' y='20' rx='3' ry='3' width='30' height='15' />
