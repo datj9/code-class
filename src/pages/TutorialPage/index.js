@@ -10,8 +10,16 @@ import { Link } from "react-router-dom";
 import { saveTutorial, clearErrors } from "../../redux/user/actions";
 import hljs from "highlight.js/lib/highlight";
 import javascript from "highlight.js/lib/languages/javascript";
+import css from "highlight.js/lib/languages/css";
+import scss from "highlight.js/lib/languages/scss";
+import less from "highlight.js/lib/languages/less";
+import bash from "highlight.js/lib/languages/bash";
 
 hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("css", css);
+hljs.registerLanguage("scss", scss);
+hljs.registerLanguage("less", less);
+hljs.registerLanguage("bash", bash);
 
 class TutorialPage extends Component {
     handleSaveTutorial = () => {
