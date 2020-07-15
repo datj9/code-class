@@ -1,27 +1,4 @@
-import {
-    FETCH_TUTORIALS_START,
-    FETCH_TUTORIALS_SUCCESS,
-    FETCH_TUTORIALS_FAILURE,
-    UPLOAD_IMAGE_START,
-    UPLOAD_IMAGE_SUCCESS,
-    UPLOAD_IMAGE_FAILURE,
-    CREATE_TUTORIAL_START,
-    CREATE_TUTORIAL_SUCCESS,
-    CREATE_TUTORIAL_FAILURE,
-    FETCH_ONE_TUTORIAL_START,
-    FETCH_ONE_TUTORIAL_SUCCESS,
-    CLEAR_TUTORIAL,
-    DELETE_TUTORIAL_START,
-    DELETE_TUTORIAL_SUCCESS,
-    UPDATE_TUTORIAL_START,
-    UPDATE_TUTORIAL_SUCCESS,
-    UPDATE_TUTORIAL_FAILURE,
-    CLEAR_ERRORS_AND_LINK,
-    GET_SAVED_TUTORIALS_START,
-    GET_SAVED_TUTORIALS_SUCCESS,
-    SEARCH_TUTORIALS_START,
-    SEARCH_TUTORIALS_SUCCESS,
-} from "./action-types";
+import * as actionTypes from "./action-types";
 import BaseApi from "../../api";
 import axios from "axios";
 
@@ -29,16 +6,16 @@ const api = BaseApi();
 const apiCheckIp = "https://ipapi.co";
 
 const fetchTutorialsStart = () => ({
-    type: FETCH_TUTORIALS_START,
+    type: actionTypes.FETCH_TUTORIALS_START,
 });
 
 const fetchTutorialsSuccess = (tutorials) => ({
-    type: FETCH_TUTORIALS_SUCCESS,
+    type: actionTypes.FETCH_TUTORIALS_SUCCESS,
     payload: tutorials,
 });
 
 const fetchTutorialsFailure = (err) => ({
-    type: FETCH_TUTORIALS_FAILURE,
+    type: actionTypes.FETCH_TUTORIALS_FAILURE,
     payload: err,
 });
 
@@ -53,11 +30,11 @@ export const fetchTutorials = () => async (dispatch) => {
 };
 
 const fetchOneTutorialStart = () => ({
-    type: FETCH_ONE_TUTORIAL_START,
+    type: actionTypes.FETCH_ONE_TUTORIAL_START,
 });
 
 const fetchOneTutorialSuccess = (tutorial) => ({
-    type: FETCH_ONE_TUTORIAL_SUCCESS,
+    type: actionTypes.FETCH_ONE_TUTORIAL_SUCCESS,
     payload: tutorial,
 });
 
@@ -70,16 +47,16 @@ export const fetchOneTutorial = (tutorialId) => async (dispatch) => {
 };
 
 const uploadImageStart = () => ({
-    type: UPLOAD_IMAGE_START,
+    type: actionTypes.UPLOAD_IMAGE_START,
 });
 
 const uploadImageSuccess = (url) => ({
-    type: UPLOAD_IMAGE_SUCCESS,
+    type: actionTypes.UPLOAD_IMAGE_SUCCESS,
     payload: url,
 });
 
 const uploadImageFailure = (err) => ({
-    type: UPLOAD_IMAGE_FAILURE,
+    type: actionTypes.UPLOAD_IMAGE_FAILURE,
     payload: err,
 });
 
@@ -96,16 +73,16 @@ export const uploadImage = (file) => async (dispatch) => {
 };
 
 export const createTutorialStart = () => ({
-    type: CREATE_TUTORIAL_START,
+    type: actionTypes.CREATE_TUTORIAL_START,
 });
 
 export const createTutorialSuccess = (tutorial) => ({
-    type: CREATE_TUTORIAL_SUCCESS,
+    type: actionTypes.CREATE_TUTORIAL_SUCCESS,
     payload: tutorial,
 });
 
 export const createTutorialFail = (err) => ({
-    type: CREATE_TUTORIAL_FAILURE,
+    type: actionTypes.CREATE_TUTORIAL_FAILURE,
     payload: err,
 });
 
@@ -120,11 +97,11 @@ export const createTutorial = (tutorial) => async (dispatch) => {
 };
 
 const deleteTutorialStart = () => ({
-    type: DELETE_TUTORIAL_START,
+    type: actionTypes.DELETE_TUTORIAL_START,
 });
 
 const deleteTutorialSuccess = (tutorialId) => ({
-    type: DELETE_TUTORIAL_SUCCESS,
+    type: actionTypes.DELETE_TUTORIAL_SUCCESS,
     payload: tutorialId,
 });
 
@@ -137,15 +114,15 @@ export const deleteTutorial = (tutorialId) => async (dispatch) => {
 };
 
 const updateTutorialStart = () => ({
-    type: UPDATE_TUTORIAL_START,
+    type: actionTypes.UPDATE_TUTORIAL_START,
 });
 
 const updateTutorialSuccess = () => ({
-    type: UPDATE_TUTORIAL_SUCCESS,
+    type: actionTypes.UPDATE_TUTORIAL_SUCCESS,
 });
 
 const updateTutorialFail = (err) => ({
-    type: UPDATE_TUTORIAL_FAILURE,
+    type: actionTypes.UPDATE_TUTORIAL_FAILURE,
     payload: err,
 });
 
@@ -160,7 +137,7 @@ export const updateTutorial = (tutorialId, updateData) => async (dispatch) => {
 };
 
 const clearTutorialStart = () => ({
-    type: CLEAR_TUTORIAL,
+    type: actionTypes.CLEAR_TUTORIAL,
 });
 
 export const clearTutorial = () => (dispatch) => {
@@ -168,7 +145,7 @@ export const clearTutorial = () => (dispatch) => {
 };
 
 const clearErrorsAndLinkStart = () => ({
-    type: CLEAR_ERRORS_AND_LINK,
+    type: actionTypes.CLEAR_ERRORS_AND_LINK,
 });
 
 export const clearErrorsAndLink = () => (dispatch) => {
@@ -176,11 +153,11 @@ export const clearErrorsAndLink = () => (dispatch) => {
 };
 
 const getSavedTutorialsStart = () => ({
-    type: GET_SAVED_TUTORIALS_START,
+    type: actionTypes.GET_SAVED_TUTORIALS_START,
 });
 
 const getSavedTutorialsSuccess = (savedTutorials) => ({
-    type: GET_SAVED_TUTORIALS_SUCCESS,
+    type: actionTypes.GET_SAVED_TUTORIALS_SUCCESS,
     payload: savedTutorials,
 });
 
@@ -193,10 +170,10 @@ export const getSavedTutorials = () => async (dispatch) => {
 };
 
 const searchTutorialsStart = () => ({
-    type: SEARCH_TUTORIALS_START,
+    type: actionTypes.SEARCH_TUTORIALS_START,
 });
 const searchTutorialsSuccess = (tutorials) => ({
-    type: SEARCH_TUTORIALS_SUCCESS,
+    type: actionTypes.SEARCH_TUTORIALS_SUCCESS,
     payload: tutorials,
 });
 export const searchTutorials = (technologies) => async (dispatch) => {
