@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import "./style.css";
 import { connect } from "react-redux";
-import { fetchOneTutorial, clearTutorial } from "../../redux/tutorials/actions";
+import { fetchOneTutorial, clearTutorial, increaseView } from "../../redux/tutorials/actions";
 import { Button, Badge } from "shards-react";
 import parse from "html-react-parser";
 import moment from "moment";
@@ -22,6 +22,8 @@ hljs.registerLanguage("less", less);
 hljs.registerLanguage("bash", bash);
 
 class TutorialPage extends Component {
+    state = { sentIp: false };
+
     handleSaveTutorial = () => {
         this.props.savedTutorialReq(this.props.tutorial.id);
     };
@@ -38,11 +40,20 @@ class TutorialPage extends Component {
     }
 
     componentDidUpdate() {
+        const tutorial = this.props.tutorial;
         const nodes = document.querySelectorAll("pre");
-        console.log(nodes);
+
         nodes.forEach((node) => {
             hljs.highlightBlock(node);
         });
+
+        if (!this.state.sentIp && Object.keys(tutorial) > 0) {
+            this.setState({ sentIp: true });
+
+            setTimeout(() => {
+                this.props.increaseViewReq(tutorial.id);
+            }, (tutorial.readingTime / 8) * 60 * 1000);
+        }
     }
 
     render() {
@@ -139,6 +150,7 @@ const mapDispatchToProps = (dispatch) => ({
     clearTutorialReq: () => dispatch(clearTutorial()),
     savedTutorialReq: (tutorialId) => dispatch(saveTutorial(tutorialId)),
     clearUserStore: () => dispatch(clearErrors()),
+    increaseViewReq: (tutorialId) => dispatch(increaseView(tutorialId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TutorialPage);

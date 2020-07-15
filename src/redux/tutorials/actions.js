@@ -23,8 +23,10 @@ import {
     SEARCH_TUTORIALS_SUCCESS,
 } from "./action-types";
 import BaseApi from "../../api";
+import axios from "axios";
 
 const api = BaseApi();
+const apiCheckIp = "https://ipapi.co";
 
 const fetchTutorialsStart = () => ({
     type: FETCH_TUTORIALS_START,
@@ -204,4 +206,10 @@ export const searchTutorials = (technologies) => async (dispatch) => {
     if (Array.isArray(data)) {
         dispatch(searchTutorialsSuccess(data));
     }
+};
+
+export const increaseView = (tutorialId) => async (dispatch) => {
+    const ip = await axios.get(`${apiCheckIp}/ip`);
+    const city = await axios.get(`${apiCheckIp}/city`);
+    await api.patch("/tutorials/increase-view", { ip, city, tutorialId });
 };

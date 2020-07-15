@@ -34,13 +34,17 @@ const BaseApi = () => {
                 return error.response.data;
             }
         },
-        async put(endpoint, body, contentType) {
+        async put(endpoint, body) {
             try {
-                const res = await api.put(
-                    endpoint,
-                    body,
-                    contentType === "formData" && { headers: { "content-type": "multipart/form-data" } }
-                );
+                const res = await api.put(endpoint, body);
+                return res.data;
+            } catch (error) {
+                return error.response.data;
+            }
+        },
+        async patch(endpoint, body) {
+            try {
+                const res = await api.patch(endpoint, body);
                 return res.data;
             } catch (error) {
                 return error.response.data;
