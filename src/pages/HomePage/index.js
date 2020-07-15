@@ -31,7 +31,7 @@ class HomePage extends React.Component {
         const techsObj = this.state.technologies;
         const searchTechnogies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
         this.props.searchTutorialsReq(searchTechnogies);
-        this.toggle();
+        this.toggleSearch();
     };
     handleSortType = (sortType) => {
         this.setState({ sortType });
