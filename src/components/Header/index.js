@@ -8,7 +8,6 @@ import { signOut } from "../../redux/user/actions";
 const Header = (props) => {
     const [collapse, setCollapse] = useState(false);
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-    const currentUser = useSelector((state) => state.user.currentUser);
     const dispatch = useDispatch();
     const signOutReq = () => {
         dispatch(signOut());

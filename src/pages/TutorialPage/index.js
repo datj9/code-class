@@ -22,7 +22,7 @@ hljs.registerLanguage("less", less);
 hljs.registerLanguage("bash", bash);
 
 class TutorialPage extends Component {
-    state = { sentIp: false };
+    state = { sentIP: false };
 
     handleSaveTutorial = () => {
         this.props.savedTutorialReq(this.props.tutorial.id);
@@ -47,8 +47,8 @@ class TutorialPage extends Component {
             hljs.highlightBlock(node);
         });
 
-        if (!this.state.sentIp && Object.keys(tutorial) > 0) {
-            this.setState({ sentIp: true });
+        if (!this.state.sentIP && Object.keys(tutorial).length > 0) {
+            this.setState({ sentIP: true });
 
             setTimeout(() => {
                 this.props.increaseViewReq(tutorial.id);
@@ -63,7 +63,7 @@ class TutorialPage extends Component {
             const contentLines = [];
 
             for (let i = 0; i < 15; i++) {
-                contentLines.push(<rect x='0' y={45 + 10 * i + ""} rx='3' ry='3' width='300' height='6' />);
+                contentLines.push(<rect x='0' y={45 + 10 * i + ""} rx='3' ry='3' width='300' height='6' key={i} />);
             }
 
             return (

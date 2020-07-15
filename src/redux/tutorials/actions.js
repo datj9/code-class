@@ -201,7 +201,7 @@ const searchTutorialsSuccess = (tutorials) => ({
 });
 export const searchTutorials = (technologies) => async (dispatch) => {
     dispatch(searchTutorialsStart());
-    console.log(technologies);
+
     const data = await api.get(`/tutorials?tags=${JSON.stringify(technologies)}`);
     if (Array.isArray(data)) {
         dispatch(searchTutorialsSuccess(data));
@@ -209,7 +209,7 @@ export const searchTutorials = (technologies) => async (dispatch) => {
 };
 
 export const increaseView = (tutorialId) => async (dispatch) => {
-    const ip = await axios.get(`${apiCheckIp}/ip`);
-    const city = await axios.get(`${apiCheckIp}/city`);
-    await api.patch("/tutorials/increase-view", { ip, city, tutorialId });
+    const resIP = await axios.get(`${apiCheckIp}/ip`);
+    const resCity = await axios.get(`${apiCheckIp}/city`);
+    await api.patch("/tutorials/increase-view", { ip: resIP.data, city: resCity.data, tutorialId });
 };
