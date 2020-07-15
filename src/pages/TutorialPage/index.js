@@ -22,10 +22,26 @@ hljs.registerLanguage("less", less);
 hljs.registerLanguage("bash", bash);
 
 class TutorialPage extends Component {
-    state = { sentIP: false };
+    constructor(props) {
+        super(props);
+        this.state = { sentIP: false };
+        this.timer = null;
+    }
 
     handleSaveTutorial = () => {
         this.props.savedTutorialReq(this.props.tutorial.id);
+    };
+
+    sendIPTimout = () => {
+        const { tutorial } = this.props;
+        this.timer = setTimeout(
+            () => this.props.increaseViewReq(tutorial.id),
+            (this.props.tutorial.readingTime / 8) * 60 * 1000
+        );
+    };
+
+    clearTimeOutSendIP = () => {
+        clearTimeout(this.timer);
     };
 
     componentDidMount() {
@@ -37,6 +53,9 @@ class TutorialPage extends Component {
     componentWillUnmount() {
         this.props.clearTutorialReq();
         this.props.clearUserStore();
+        if (this.timer) {
+            this.clearTimeOutSendIP();
+        }
     }
 
     componentDidUpdate() {
@@ -49,10 +68,7 @@ class TutorialPage extends Component {
 
         if (!this.state.sentIP && Object.keys(tutorial).length > 0) {
             this.setState({ sentIP: true });
-
-            setTimeout(() => {
-                this.props.increaseViewReq(tutorial.id);
-            }, (tutorial.readingTime / 8) * 60 * 1000);
+            this.sendIPTimout();
         }
     }
 
