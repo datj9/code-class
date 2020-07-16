@@ -46,7 +46,7 @@ class TutorialsList extends Component {
                     <div className='d-flex flex-column'>
                         <span className='tutorial-title'>{tutorial.title}</span>
                         <span className='tutorial-description'>{tutorial.description}</span>
-                        <span className='mt-2'>
+                        <span className='mt-2 created-at'>
                             {Date.now() - new Date(tutorial.createdAt) <= 3 * 24 * 60 * 60 * 1000
                                 ? moment(tutorial.createdAt).fromNow()
                                 : moment(tutorial.createdAt).format("MMMM DD")}
