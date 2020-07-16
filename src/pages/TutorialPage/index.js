@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import "./style.css";
 import { connect } from "react-redux";
 import { fetchOneTutorial, clearTutorial, increaseView } from "../../redux/tutorials/actions";
@@ -124,7 +124,7 @@ class TutorialPage extends Component {
                 {isLoading ? (
                     <Loader />
                 ) : (
-                    <Fragment>
+                    <div className='tutorial-page'>
                         <h3 className='mb-3'>{tutorial.title}</h3>
                         <div className='mb-3 d-flex justify-content-between'>
                             <div className='d-flex flex-column flex-start'>
@@ -145,7 +145,7 @@ class TutorialPage extends Component {
                                 </Badge>
                             ))}
                         </div>
-                    </Fragment>
+                    </div>
                 )}
             </div>
         );
