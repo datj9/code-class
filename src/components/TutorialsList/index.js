@@ -45,7 +45,11 @@ class TutorialsList extends Component {
                     <img className='mr-3' src={tutorial.thumbnailUrl} alt='' />
                     <div className='d-flex flex-column'>
                         <span className='tutorial-title'>{tutorial.title}</span>
-                        <span className='tutorial-description'>{tutorial.description}</span>
+                        <span className='tutorial-description'>
+                            {tutorial.description.length <= 26
+                                ? tutorial.description
+                                : `${tutorial.description.slice(0, 26)}...`}
+                        </span>
                         <span className='mt-2 created-at'>
                             {Date.now() - new Date(tutorial.createdAt) <= 3 * 24 * 60 * 60 * 1000
                                 ? moment(tutorial.createdAt).fromNow()
