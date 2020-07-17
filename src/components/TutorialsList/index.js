@@ -46,7 +46,7 @@ class TutorialsList extends Component {
                     <div className='d-flex flex-column'>
                         <span className='tutorial-title'>{tutorial.title}</span>
                         <span className='tutorial-description'>
-                            {tutorial.description.length <= 26
+                            {tutorial.description.length <= 26 || window.innerWidth > 576
                                 ? tutorial.description
                                 : `${tutorial.description.slice(0, 26)}...`}
                         </span>
