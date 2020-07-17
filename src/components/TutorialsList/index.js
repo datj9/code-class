@@ -3,17 +3,14 @@ import "./style.css";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { Badge } from "shards-react";
-import { deleteTutorial } from "../../redux/tutorials/actions";
 import CardLoader from "../CardLoader";
+import ThreeDotsLoader from "../ThreeDotsLoader";
 import moment from "moment";
+import { fetchTutorials } from "../../redux/tutorials/actions";
 
 class TutorialsList extends Component {
-    delTurorial = (id) => {
-        this.props.delTurorialReq(id);
-    };
-
     render() {
-        const { tutorials, isLoading, isSearching, sortType, pageSize = 8 } = this.props;
+        const { tutorials, isLoading, isSearching, sortType, pageSize, isFetchingMore } = this.props;
 
         const List = () => {
             let tutorialsList;
@@ -69,7 +66,13 @@ class TutorialsList extends Component {
 
         return (
             <div className='d-flex flex-wrap'>
-                {isLoading || isSearching ? <CardLoader numberOfCards={pageSize} /> : <List />}
+                {isLoading || isSearching ? (
+                    <CardLoader numberOfCards={pageSize} />
+                ) : (
+                    <>
+                        <List /> {isFetchingMore ? <ThreeDotsLoader /> : null}
+                    </>
+                )}
             </div>
         );
     }
@@ -78,12 +81,13 @@ class TutorialsList extends Component {
 const mapStateToProps = (state) => ({
     tutorials: state.tutorial.tutorials,
     isLoading: state.tutorial.isLoading,
+    isFetchingMore: state.tutorial.isFetchingMore,
     isSearching: state.tutorial.isSearching,
     currentUser: state.user.currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    delTurorialReq: (id) => dispatch(deleteTutorial(id)),
+    fetchTutorialsReq: (pageSize, pageIndex) => dispatch(fetchTutorials(pageSize, pageIndex)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TutorialsList));

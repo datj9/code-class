@@ -13,6 +13,8 @@ class HomePage extends React.Component {
             openSort: false,
             sortType: "",
             technologies: { ReactJS: false, JavaScript: false },
+            pageIndex: 1,
+            pageSize: 8,
         };
     }
 
@@ -29,21 +31,43 @@ class HomePage extends React.Component {
     };
     handleSearch = () => {
         const techsObj = this.state.technologies;
-        const searchTechnogies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
-        this.props.searchTutorialsReq(searchTechnogies);
+        const searchTechnologies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
+        this.props.searchTutorialsReq(this.state.pageSize, 1, searchTechnologies);
         this.toggleSearch();
+        this.setState({ pageIndex: 1 });
     };
     handleSortType = (sortType) => {
         this.setState({ sortType });
     };
 
     componentDidMount() {
-        this.props.fetchTutorialsReq();
+        this.props.fetchTutorialsReq(this.state.pageSize, 1);
     }
 
     render() {
         const { technologies } = this.state;
         const { isSearching } = this.props;
+
+        document.addEventListener("scroll", () => {
+            const techsObj = this.state.technologies;
+            const searchTechnologies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
+
+            if (
+                window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
+                this.state.pageIndex < Math.ceil(this.props.total / this.state.pageSize) &&
+                searchTechnologies.length === 0
+            ) {
+                this.props.fetchTutorialsReq(this.state.pageSize, this.state.pageIndex + 1);
+                this.setState({ pageIndex: this.state.pageIndex + 1 });
+            } else if (
+                window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
+                this.state.pageIndex < Math.ceil(this.props.total / this.state.pageSize) &&
+                searchTechnologies.length > 0
+            ) {
+                this.props.searchTutorialsReq(this.state.pageSize, this.state.pageIndex + 1, searchTechnologies);
+                this.setState({ pageIndex: this.state.pageIndex + 1 });
+            }
+        });
 
         return (
             <div className='container py-5'>
@@ -99,7 +123,7 @@ class HomePage extends React.Component {
                     </div>
                 </div>
                 <hr />
-                <TutorialsList sortType={this.state.sortType} />
+                <TutorialsList pageSize={4} sortType={this.state.sortType} />
             </div>
         );
     }
@@ -108,11 +132,13 @@ class HomePage extends React.Component {
 const mapStateToProps = (state) => ({
     tutorials: state.tutorial.tutorials,
     isSearching: state.tutorial.isSearching,
+    total: state.tutorial.total,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchTutorialsReq: () => dispatch(fetchTutorials()),
-    searchTutorialsReq: (technologies) => dispatch(searchTutorials(technologies)),
+    fetchTutorialsReq: (pageSize, pageIndex) => dispatch(fetchTutorials(pageSize, pageIndex)),
+    searchTutorialsReq: (pageSize, pageIndex, technologies) =>
+        dispatch(searchTutorials(pageSize, pageIndex, technologies)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

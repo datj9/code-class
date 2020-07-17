@@ -1,35 +1,13 @@
-import {
-    FETCH_TUTORIALS_START,
-    FETCH_TUTORIALS_SUCCESS,
-    FETCH_TUTORIALS_FAILURE,
-    UPLOAD_IMAGE_SUCCESS,
-    UPLOAD_IMAGE_START,
-    CREATE_TUTORIAL_START,
-    CREATE_TUTORIAL_SUCCESS,
-    CREATE_TUTORIAL_FAILURE,
-    FETCH_ONE_TUTORIAL_START,
-    FETCH_ONE_TUTORIAL_SUCCESS,
-    CLEAR_TUTORIAL,
-    DELETE_TUTORIAL_START,
-    DELETE_TUTORIAL_SUCCESS,
-    UPDATE_TUTORIAL_START,
-    UPDATE_TUTORIAL_SUCCESS,
-    UPDATE_TUTORIAL_FAILURE,
-    CLEAR_ERRORS_AND_LINK,
-    GET_SAVED_TUTORIALS_START,
-    GET_SAVED_TUTORIALS_SUCCESS,
-    SEARCH_TUTORIALS_START,
-    SEARCH_TUTORIALS_SUCCESS,
-} from "./action-types";
+import * as actionTypes from "./action-types";
 
 const INITIAL_STATE = {
     isLoading: false,
+    isFetchingMore: false,
     isSearching: false,
+    total: 0,
     loaded: false,
     tutorials: [],
     tutorial: {},
-    linkUrl: "",
-    isUploading: false,
     error: {},
     errors: {},
     message: "",
@@ -37,127 +15,74 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case FETCH_TUTORIALS_START:
+        case actionTypes.FETCH_TUTORIALS_START:
             return {
                 ...state,
-                isLoading: true,
+                isLoading: action.payload.pageIndex === 1,
+                isFetchingMore: action.payload.pageIndex > 1,
             };
-        case FETCH_TUTORIALS_SUCCESS:
+        case actionTypes.FETCH_TUTORIALS_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
-                tutorials: action.payload,
+                isFetchingMore: false,
+                tutorials:
+                    action.payload.pageIndex === 1
+                        ? action.payload.tutorials
+                        : state.tutorials.concat(action.payload.tutorials),
+                total: action.payload.pageIndex === 1 ? action.payload.total : state.total,
             };
-        case FETCH_TUTORIALS_FAILURE:
+        case actionTypes.FETCH_TUTORIALS_FAILURE:
             return {
                 ...state,
                 isLoading: false,
+                isFetchingMore: false,
                 error: action.payload,
             };
-        case FETCH_ONE_TUTORIAL_START:
+        case actionTypes.FETCH_ONE_TUTORIAL_START:
             return {
                 ...state,
                 isLoading: true,
             };
-        case FETCH_ONE_TUTORIAL_SUCCESS:
+        case actionTypes.FETCH_ONE_TUTORIAL_SUCCESS:
             return {
                 ...state,
                 tutorial: action.payload,
                 isLoading: false,
             };
-        case CLEAR_TUTORIAL:
+        case actionTypes.CLEAR_TUTORIAL:
             return {
                 ...state,
                 tutorial: {},
             };
-        case UPLOAD_IMAGE_START:
-            return {
-                ...state,
-                isUploading: true,
-            };
-        case UPLOAD_IMAGE_SUCCESS:
-            return {
-                ...state,
-                isUploading: false,
-                linkUrl: action.payload,
-            };
-        case CREATE_TUTORIAL_START:
+        case actionTypes.GET_SAVED_TUTORIALS_START:
             return {
                 ...state,
                 isLoading: true,
             };
-        case CREATE_TUTORIAL_SUCCESS:
-            return {
-                ...state,
-                isLoading: false,
-                tutorials: state.tutorials.concat([action.payload]),
-                message: "success",
-            };
-        case CREATE_TUTORIAL_FAILURE:
-            return {
-                ...state,
-                isLoading: false,
-                errors: action.payload,
-            };
-        case DELETE_TUTORIAL_START:
-            return {
-                ...state,
-                isLoading: true,
-            };
-        case DELETE_TUTORIAL_SUCCESS:
-            return {
-                ...state,
-                isLoading: false,
-                tutorials: state.tutorials.filter((tutorial) => tutorial.id !== action.payload),
-            };
-        case UPDATE_TUTORIAL_START:
-            return {
-                ...state,
-                isLoading: true,
-            };
-        case UPDATE_TUTORIAL_SUCCESS:
-            return {
-                ...state,
-                isLoading: false,
-                message: "success",
-                errors: {},
-            };
-        case UPDATE_TUTORIAL_FAILURE:
-            return {
-                ...state,
-                isLoading: false,
-                errors: action.payload,
-            };
-        case CLEAR_ERRORS_AND_LINK:
-            return {
-                ...state,
-                errors: {},
-                error: "",
-                linkUrl: "",
-                message: "",
-            };
-        case GET_SAVED_TUTORIALS_START:
-            return {
-                ...state,
-                isLoading: true,
-            };
-        case GET_SAVED_TUTORIALS_SUCCESS:
+        case actionTypes.GET_SAVED_TUTORIALS_SUCCESS:
             return {
                 ...state,
                 isLoading: false,
                 tutorials: action.payload,
                 loaded: true,
             };
-        case SEARCH_TUTORIALS_START:
+        case actionTypes.SEARCH_TUTORIALS_START:
             return {
                 ...state,
-                isSearching: true,
+                isSearching: action.payload.pageIndex === 1,
+                isFetchingMore: action.payload.pageIndex > 1,
             };
-        case SEARCH_TUTORIALS_SUCCESS:
+        case actionTypes.SEARCH_TUTORIALS_SUCCESS:
             return {
                 ...state,
                 isSearching: false,
-                tutorials: action.payload,
+                isFetchingMore: false,
+                tutorials:
+                    action.payload.pageIndex === 1
+                        ? action.payload.tutorials
+                        : state.tutorials.concat(action.payload.tutorials),
+                total: action.payload.pageIndex === 1 ? action.payload.total : state.total,
             };
         default:
             return state;
