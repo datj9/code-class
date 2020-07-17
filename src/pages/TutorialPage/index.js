@@ -125,7 +125,7 @@ class TutorialPage extends Component {
                     <Loader />
                 ) : (
                     <div className='tutorial-page'>
-                        <h3 className='mb-3'>{tutorial.title}</h3>
+                        <h3 className='mb-3 tutorial-title'>{tutorial.title}</h3>
                         <div className='mb-3 d-flex justify-content-between'>
                             <div className='d-flex flex-column flex-start'>
                                 <span>Lượt xem: {tutorial.views}</span>

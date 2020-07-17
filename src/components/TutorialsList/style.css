@@ -11,26 +11,9 @@
     border-radius: 0.25rem;
 }
 
-.card-item-admin {
-    width: 30%;
-    margin: 0 2.5% 5%;
-}
-
-.card-item-admin:nth-child(3n-2) {
-    margin: 0 2.5% 5% 0;
-}
-
-.card-item-admin:nth-child(3n) {
-    margin: 0 0 5% 2.5%;
-}
-
-.card-item-admin img {
-    width: 100%;
-    height: 20rem;
-}
-
 .tutorial-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    font-weight: 700;
 }
 
 .tutorial-description {
@@ -47,8 +30,8 @@
 
 @media only screen and (max-width: 576px) {
     .card-item img {
-        width: 5.5rem;
-        height: 5.5rem;
+        width: 5rem;
+        height: 5rem;
     }
 }
 
