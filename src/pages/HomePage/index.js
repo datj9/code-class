@@ -2,7 +2,7 @@ import React from "react";
 import "./style.css";
 import { Dropdown, DropdownToggle, DropdownMenu, FormCheckbox, DropdownItem, Button } from "shards-react";
 import { connect } from "react-redux";
-import { fetchTutorials, searchTutorials } from "../../redux/tutorials/actions";
+import { clearAllTutorials, fetchTutorials, searchTutorials } from "../../redux/tutorials/actions";
 import TutorialsList from "../../components/TutorialsList";
 
 class HomePage extends React.Component {
@@ -41,7 +41,7 @@ class HomePage extends React.Component {
     };
 
     componentWillUnmount() {
-        document.removeEventListener("scroll");
+        document.removeEventListener("scroll", () => this.props.clearAllTutorialsInStore());
     }
 
     componentDidMount() {
@@ -143,6 +143,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchTutorialsReq: (pageSize, pageIndex) => dispatch(fetchTutorials(pageSize, pageIndex)),
     searchTutorialsReq: (pageSize, pageIndex, technologies) =>
         dispatch(searchTutorials(pageSize, pageIndex, technologies)),
+    clearAllTutorialsInStore: () => dispatch(clearAllTutorials()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

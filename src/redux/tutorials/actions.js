@@ -47,12 +47,16 @@ export const fetchOneTutorial = (tutorialId) => async (dispatch) => {
     }
 };
 
-const clearTutorialStart = () => ({
-    type: actionTypes.CLEAR_TUTORIAL,
-});
-
 export const clearTutorial = () => (dispatch) => {
-    dispatch(clearTutorialStart());
+    dispatch({
+        type: actionTypes.CLEAR_TUTORIAL,
+    });
+};
+
+export const clearAllTutorials = () => (dispatch) => {
+    dispatch({
+        type: actionTypes.CLEAR_ALL_TUTORIALS,
+    });
 };
 
 const getSavedTutorialsStart = () => ({
