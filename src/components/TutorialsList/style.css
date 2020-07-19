@@ -5,6 +5,10 @@
     flex-direction: row;
 }
 
+.card-item:last-child {
+    margin-bottom: 0;
+}
+
 .card-item img {
     width: 8rem;
     height: 8rem;
