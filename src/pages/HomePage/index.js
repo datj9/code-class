@@ -40,6 +40,10 @@ class HomePage extends React.Component {
         this.setState({ sortType });
     };
 
+    componentWillUnmount() {
+        document.removeEventListener("scroll");
+    }
+
     componentDidMount() {
         this.props.fetchTutorialsReq(this.state.pageSize, 1);
     }
