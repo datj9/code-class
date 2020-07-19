@@ -9,6 +9,7 @@ class SavedTutorialsPage extends React.Component {
 
     componentDidMount() {
         this.props.getSavedTutorialsReq();
+        window.removeEventListener("scroll", () => {});
     }
 
     render() {

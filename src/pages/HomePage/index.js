@@ -39,39 +39,40 @@ class HomePage extends React.Component {
     handleSortType = (sortType) => {
         this.setState({ sortType });
     };
+    listenToScoll = () => {
+        const techsObj = this.state.technologies;
+        const searchTechnologies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
+
+        if (
+            window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
+            this.state.pageIndex < Math.ceil(this.props.total / this.state.pageSize) &&
+            searchTechnologies.length === 0
+        ) {
+            this.props.fetchTutorialsReq(this.state.pageSize, this.state.pageIndex + 1);
+            this.setState({ pageIndex: this.state.pageIndex + 1 });
+        } else if (
+            window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
+            this.state.pageIndex < Math.ceil(this.props.total / this.state.pageSize) &&
+            searchTechnologies.length > 0
+        ) {
+            this.props.searchTutorialsReq(this.state.pageSize, this.state.pageIndex + 1, searchTechnologies);
+            this.setState({ pageIndex: this.state.pageIndex + 1 });
+        }
+    };
 
     componentWillUnmount() {
-        document.removeEventListener("scroll", () => this.props.clearAllTutorialsInStore());
+        this.props.clearAllTutorialsInStore();
+        window.removeEventListener("scroll", this.listenToScoll);
     }
 
     componentDidMount() {
         this.props.fetchTutorialsReq(this.state.pageSize, 1);
+        window.addEventListener("scroll", this.listenToScoll);
     }
 
     render() {
         const { technologies } = this.state;
         const { isSearching } = this.props;
-
-        document.addEventListener("scroll", () => {
-            const techsObj = this.state.technologies;
-            const searchTechnologies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
-
-            if (
-                window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
-                this.state.pageIndex < Math.ceil(this.props.total / this.state.pageSize) &&
-                searchTechnologies.length === 0
-            ) {
-                this.props.fetchTutorialsReq(this.state.pageSize, this.state.pageIndex + 1);
-                this.setState({ pageIndex: this.state.pageIndex + 1 });
-            } else if (
-                window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
-                this.state.pageIndex < Math.ceil(this.props.total / this.state.pageSize) &&
-                searchTechnologies.length > 0
-            ) {
-                this.props.searchTutorialsReq(this.state.pageSize, this.state.pageIndex + 1, searchTechnologies);
-                this.setState({ pageIndex: this.state.pageIndex + 1 });
-            }
-        });
 
         return (
             <div className='container py-5'>

@@ -84,6 +84,11 @@ export default (state = INITIAL_STATE, action) => {
                         : state.tutorials.concat(action.payload.tutorials),
                 total: action.payload.pageIndex === 1 ? action.payload.total : state.total,
             };
+        case actionTypes.CLEAR_ALL_TUTORIALS:
+            return {
+                ...state,
+                tutorials: [],
+            };
         default:
             return state;
     }
