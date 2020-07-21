@@ -20,10 +20,12 @@ const fetchTutorialsFailure = (err) => ({
     payload: err,
 });
 
-export const fetchTutorials = (pageSize, pageIndex) => async (dispatch) => {
+export const fetchTutorials = (pageSize, pageIndex, sortBy, orderBy) => async (dispatch) => {
     dispatch(fetchTutorialsStart(pageIndex));
     try {
-        const data = await api.get(`/tutorials?pageSize=${pageSize}&&pageIndex=${pageIndex}`);
+        const data = await api.get(
+            `/tutorials?pageSize=${pageSize}&&pageIndex=${pageIndex}&&sortBy=${sortBy}&&orderBy=${orderBy}`
+        );
         dispatch(fetchTutorialsSuccess(data.tutorials, data.total, pageIndex));
     } catch (error) {
         dispatch(fetchTutorialsFailure(error));
@@ -84,11 +86,13 @@ const searchTutorialsSuccess = (tutorials, total, pageIndex) => ({
     type: actionTypes.SEARCH_TUTORIALS_SUCCESS,
     payload: { tutorials, total, pageIndex },
 });
-export const searchTutorials = (pageSize, pageIndex, technologies) => async (dispatch) => {
+export const searchTutorials = (pageSize, pageIndex, technologies, sortBy, orderBy) => async (dispatch) => {
     dispatch(searchTutorialsStart(pageIndex));
 
     const data = await api.get(
-        `/tutorials?tags=${JSON.stringify(technologies)}&&pageSize=${pageSize}&&pageIndex=${pageIndex}`
+        `/tutorials?tags=${JSON.stringify(
+            technologies
+        )}&&pageSize=${pageSize}&&pageIndex=${pageIndex}&&sortBy=${sortBy}&&orderBy=${orderBy}`
     );
     if (Array.isArray(data.tutorials)) {
         dispatch(searchTutorialsSuccess(data.tutorials, data.total, pageIndex));

@@ -63,7 +63,7 @@ class TutorialsList extends Component {
                 </Link>
             ));
         };
-        console.log(tutorials);
+
         return (
             <div className='d-flex flex-wrap'>
                 {isLoading || isSearching ? (

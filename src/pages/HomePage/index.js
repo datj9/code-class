@@ -15,6 +15,8 @@ class HomePage extends React.Component {
             technologies: { ReactJS: false, JavaScript: false, TypeScript: false },
             pageIndex: 1,
             pageSize: 8,
+            sortBy: "createdAt",
+            orderBy: -1,
         };
     }
 
@@ -36,12 +38,14 @@ class HomePage extends React.Component {
         this.toggleSearch();
         this.setState({ pageIndex: 1 });
     };
-    handleSortType = (sortType) => {
-        this.setState({ sortType });
+    handleSortType = (sortBy, orderBy) => {
+        this.props.fetchTutorialsReq(this.state.pageSize, 1, sortBy, orderBy);
+        this.setState({ sortBy, orderBy });
     };
     listenToScoll = () => {
         const techsObj = this.state.technologies;
         const searchTechnologies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
+        const { sortBy, orderBy } = this.state;
 
         if (
             window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
@@ -49,7 +53,7 @@ class HomePage extends React.Component {
             searchTechnologies.length === 0 &&
             this.props.tutorials.length > 0
         ) {
-            this.props.fetchTutorialsReq(this.state.pageSize, this.state.pageIndex + 1);
+            this.props.fetchTutorialsReq(this.state.pageSize, this.state.pageIndex + 1, sortBy, orderBy);
             this.setState({ pageIndex: this.state.pageIndex + 1 });
         } else if (
             window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
@@ -57,7 +61,13 @@ class HomePage extends React.Component {
             searchTechnologies.length > 0 &&
             this.props.tutorials.length > 0
         ) {
-            this.props.searchTutorialsReq(this.state.pageSize, this.state.pageIndex + 1, searchTechnologies);
+            this.props.searchTutorialsReq(
+                this.state.pageSize,
+                this.state.pageIndex + 1,
+                searchTechnologies,
+                sortBy,
+                orderBy
+            );
             this.setState({ pageIndex: this.state.pageIndex + 1 });
         }
     };
@@ -68,7 +78,8 @@ class HomePage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.fetchTutorialsReq(this.state.pageSize, 1);
+        const { sortBy, orderBy } = this.state;
+        this.props.fetchTutorialsReq(this.state.pageSize, 1, sortBy, orderBy);
         window.addEventListener("scroll", this.listenToScoll);
     }
 
@@ -84,16 +95,16 @@ class HomePage extends React.Component {
                         <Dropdown className='mr-3' open={this.state.openSort} toggle={this.toggleSort}>
                             <DropdownToggle theme='secondary'>Sắp xếp theo</DropdownToggle>
                             <DropdownMenu>
-                                <DropdownItem onClick={() => this.handleSortType("DIFFICULTY_ASC")}>
+                                <DropdownItem onClick={() => this.handleSortType("difficultyLevel", 1)}>
                                     Dễ - Khó
                                 </DropdownItem>
-                                <DropdownItem onClick={() => this.handleSortType("DIFFICULTY_DESC")}>
+                                <DropdownItem onClick={() => this.handleSortType("difficultyLevel", -1)}>
                                     Khó - Dễ
                                 </DropdownItem>
-                                <DropdownItem onClick={() => this.handleSortType("VIEWS_DESC")}>
+                                <DropdownItem onClick={() => this.handleSortType("views", -1)}>
                                     Lượt xem cao
                                 </DropdownItem>
-                                <DropdownItem onClick={() => this.handleSortType("MOST_RECENT")}>
+                                <DropdownItem onClick={() => this.handleSortType("createdAt", -1)}>
                                     Gần đây nhất
                                 </DropdownItem>
                             </DropdownMenu>
@@ -149,9 +160,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchTutorialsReq: (pageSize, pageIndex) => dispatch(fetchTutorials(pageSize, pageIndex)),
-    searchTutorialsReq: (pageSize, pageIndex, technologies) =>
-        dispatch(searchTutorials(pageSize, pageIndex, technologies)),
+    fetchTutorialsReq: (pageSize, pageIndex, sortBy, orderBy) =>
+        dispatch(fetchTutorials(pageSize, pageIndex, sortBy, orderBy)),
+    searchTutorialsReq: (pageSize, pageIndex, technologies, sortBy, orderBy) =>
+        dispatch(searchTutorials(pageSize, pageIndex, technologies, sortBy, orderBy)),
     clearAllTutorialsInStore: () => dispatch(clearAllTutorials()),
 });
 
