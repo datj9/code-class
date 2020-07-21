@@ -12,7 +12,7 @@ class HomePage extends React.Component {
             openSearch: false,
             openSort: false,
             sortType: "",
-            technologies: { ReactJS: false, JavaScript: false },
+            technologies: { ReactJS: false, JavaScript: false, TypeScript: false },
             pageIndex: 1,
             pageSize: 8,
         };
@@ -109,7 +109,13 @@ class HomePage extends React.Component {
                                 >
                                     JavaScript
                                 </FormCheckbox>
-
+                                <FormCheckbox
+                                    className='ml-4'
+                                    checked={technologies.TypeScript}
+                                    onChange={(e) => this.handleTechChange(e, "TypeScript")}
+                                >
+                                    TypeScript
+                                </FormCheckbox>
                                 <DropdownItem divider />
                                 <DropdownItem disabled>Công nghệ</DropdownItem>
                                 <FormCheckbox

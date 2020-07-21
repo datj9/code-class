@@ -74,20 +74,38 @@ class TutorialPage extends Component {
 
     render() {
         const { tutorial, currentUser, isLoading, isSaving, isAuthenticated, message } = this.props;
+        const isLargeScreen = window.innerWidth > 768;
 
         const Loader = () => {
             const contentLines = [];
 
             for (let i = 0; i < 15; i++) {
-                contentLines.push(<rect x='0' y={45 + 10 * i + ""} rx='3' ry='3' width='300' height='6' key={i} />);
+                contentLines.push(
+                    <rect
+                        x='0'
+                        y={(isLargeScreen ? 45 : 81) + 10 * i + ""}
+                        rx='3'
+                        ry='3'
+                        width='300'
+                        height={isLargeScreen ? 6 : 12}
+                        key={i}
+                    />
+                );
             }
 
             return (
                 <ContentLoader style={{ width: "100%" }} viewBox='0 0 300 330'>
-                    <rect x='0' y='0' rx='5' ry='5' width='200' height='12' />
-                    <rect x='0' y='20' rx='4' ry='4' width='30' height='8' />
-                    <rect x='270' y='20' rx='3' ry='3' width='30' height='15' />
-                    <rect x='0' y='32' rx='4' ry='4' width='50' height='8' />
+                    <rect x='0' y='0' rx='5' ry='5' width='200' height={isLargeScreen ? 12 : 24} />
+                    <rect x='0' y={isLargeScreen ? 20 : 32} rx='4' ry='4' width='30' height={isLargeScreen ? 8 : 16} />
+                    <rect
+                        x={isLargeScreen ? 270 : 255}
+                        y={isLargeScreen ? 20 : 32}
+                        rx='3'
+                        ry='3'
+                        width={isLargeScreen ? 30 : 45}
+                        height={isLargeScreen ? 15 : 25}
+                    />
+                    <rect x='0' y={isLargeScreen ? 32 : 52} rx='4' ry='4' width='50' height={isLargeScreen ? 8 : 24} />
                     {contentLines}
                 </ContentLoader>
             );
