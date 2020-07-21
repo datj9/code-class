@@ -46,14 +46,16 @@ class HomePage extends React.Component {
         if (
             window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
             this.state.pageIndex < Math.ceil(this.props.total / this.state.pageSize) &&
-            searchTechnologies.length === 0 && this.props.tutorials.length > 0
+            searchTechnologies.length === 0 &&
+            this.props.tutorials.length > 0
         ) {
             this.props.fetchTutorialsReq(this.state.pageSize, this.state.pageIndex + 1);
             this.setState({ pageIndex: this.state.pageIndex + 1 });
         } else if (
             window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
             this.state.pageIndex < Math.ceil(this.props.total / this.state.pageSize) &&
-            searchTechnologies.length > 0 && this.props.tutorials.length > 0
+            searchTechnologies.length > 0 &&
+            this.props.tutorials.length > 0
         ) {
             this.props.searchTutorialsReq(this.state.pageSize, this.state.pageIndex + 1, searchTechnologies);
             this.setState({ pageIndex: this.state.pageIndex + 1 });
@@ -134,7 +136,7 @@ class HomePage extends React.Component {
                     </div>
                 </div>
                 <hr />
-                <TutorialsList pageSize={4} sortType={this.state.sortType} />
+                <TutorialsList pageSize={6} sortType={this.state.sortType} />
             </div>
         );
     }
