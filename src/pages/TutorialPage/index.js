@@ -83,7 +83,7 @@ class TutorialPage extends Component {
                 contentLines.push(
                     <rect
                         x='0'
-                        y={(isLargeScreen ? 45 : 136) + (isLargeScreen ? 10 : 17) * i + ""}
+                        y={(isLargeScreen ? 45 : 136) + (isLargeScreen ? 10 : 17) * i}
                         rx='3'
                         ry='3'
                         width='300'
@@ -94,7 +94,7 @@ class TutorialPage extends Component {
             }
 
             return (
-                <ContentLoader style={{ width: "100%" }} viewBox='0 0 300 330'>
+                <ContentLoader style={{ width: "100%" }} viewBox='0 0 300 355'>
                     <rect
                         x='0'
                         y='0'
@@ -113,12 +113,12 @@ class TutorialPage extends Component {
                         height={isLargeScreen ? 8 : 16}
                     />
                     <rect
-                        x={isLargeScreen ? 270 : 225}
+                        x={isLargeScreen ? 275 : 230}
                         y={isLargeScreen ? 20 : 74}
                         rx='3'
                         ry='3'
-                        width={isLargeScreen ? 30 : 70}
-                        height={isLargeScreen ? 15 : 30}
+                        width={isLargeScreen ? 25 : 70}
+                        height={isLargeScreen ? 10 : 30}
                     />
                     <rect
                         x='0'
