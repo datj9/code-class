@@ -117,8 +117,8 @@ class TutorialPage extends Component {
                         y={isLargeScreen ? 20 : 74}
                         rx='3'
                         ry='3'
-                        width={isLargeScreen ? 30 : 70}
-                        height={isLargeScreen ? 15 : 30}
+                        width={isLargeScreen ? 25 : 70}
+                        height={isLargeScreen ? 10 : 30}
                     />
                     <rect
                         x='0'
