@@ -10,30 +10,10 @@ import { fetchTutorials } from "../../redux/tutorials/actions";
 
 class TutorialsList extends Component {
     render() {
-        const { tutorials, isLoading, isSearching, sortType, pageSize, isFetchingMore } = this.props;
+        const { tutorials, isLoading, isSearching, pageSize, isFetchingMore } = this.props;
 
         const List = () => {
-            let tutorialsList;
-
-            switch (sortType) {
-                case "DIFFICULTY_ASC":
-                    tutorialsList = tutorials.sort((a, b) => a.difficultyLevel - b.difficultyLevel);
-                    break;
-                case "DIFFICULTY_DESC":
-                    tutorialsList = tutorials.sort((a, b) => b.difficultyLevel - a.difficultyLevel);
-                    break;
-                case "VIEWS_DESC":
-                    tutorialsList = tutorials.sort((a, b) => b.views - a.views);
-                    break;
-                case "MOST_RECENT":
-                    tutorialsList = tutorials.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-                    break;
-                default:
-                    tutorialsList = tutorials;
-                    break;
-            }
-
-            return tutorialsList.map((tutorial) => (
+            return tutorials.map((tutorial) => (
                 <Link
                     to={`/tutorials/${tutorial.id}`}
                     className='card-item text-decoration-none text-dark'
@@ -43,9 +23,9 @@ class TutorialsList extends Component {
                     <div className='d-flex flex-column'>
                         <span className='tutorial-title'>{tutorial.title}</span>
                         <span className='tutorial-description'>
-                            {tutorial.description.length <= 26 || window.innerWidth > 576
+                            {tutorial.description.length <= 23 || window.innerWidth > 576
                                 ? tutorial.description
-                                : `${tutorial.description.slice(0, 26)}...`}
+                                : `${tutorial.description.slice(0, 23)}...`}
                         </span>
                         <span className='mt-2 created-at'>
                             {Date.now() - new Date(tutorial.createdAt) <= 3 * 24 * 60 * 60 * 1000
