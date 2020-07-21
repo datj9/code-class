@@ -79,11 +79,11 @@ class TutorialPage extends Component {
         const Loader = () => {
             const contentLines = [];
 
-            for (let i = 0; i < (isLargeScreen ? 15 : 10); i++) {
+            for (let i = 0; i < (isLargeScreen ? 15 : 12); i++) {
                 contentLines.push(
                     <rect
                         x='0'
-                        y={(isLargeScreen ? 45 : 81) + (isLargeScreen ? 10 : 17) * i + ""}
+                        y={(isLargeScreen ? 45 : 73) + (isLargeScreen ? 10 : 17) * i + ""}
                         rx='3'
                         ry='3'
                         width='300'
@@ -96,7 +96,14 @@ class TutorialPage extends Component {
             return (
                 <ContentLoader style={{ width: "100%" }} viewBox='0 0 300 330'>
                     <rect x='0' y='0' rx='5' ry='5' width='200' height={isLargeScreen ? 12 : 24} />
-                    <rect x='0' y={isLargeScreen ? 20 : 32} rx='4' ry='4' width='30' height={isLargeScreen ? 8 : 16} />
+                    <rect
+                        x='0'
+                        y={isLargeScreen ? 20 : 32}
+                        rx='4'
+                        ry='4'
+                        width={isLargeScreen ? 30 : 45}
+                        height={isLargeScreen ? 8 : 16}
+                    />
                     <rect
                         x={isLargeScreen ? 270 : 255}
                         y={isLargeScreen ? 20 : 32}
@@ -105,7 +112,14 @@ class TutorialPage extends Component {
                         width={isLargeScreen ? 30 : 45}
                         height={isLargeScreen ? 15 : 25}
                     />
-                    <rect x='0' y={isLargeScreen ? 32 : 52} rx='4' ry='4' width='50' height={isLargeScreen ? 8 : 24} />
+                    <rect
+                        x='0'
+                        y={isLargeScreen ? 32 : 52}
+                        rx='4'
+                        ry='4'
+                        width={isLargeScreen ? 50 : 55}
+                        height={isLargeScreen ? 8 : 16}
+                    />
                     {contentLines}
                 </ContentLoader>
             );
