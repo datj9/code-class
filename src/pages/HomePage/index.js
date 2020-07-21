@@ -28,13 +28,16 @@ class HomePage extends React.Component {
     };
     handleTechChange = (e, tech) => {
         const technologies = this.state.technologies;
+
         technologies[tech] = !technologies[tech];
         this.setState({ technologies });
     };
     handleSearch = () => {
+        const { sortBy, orderBy } = this.state;
         const techsObj = this.state.technologies;
         const searchTechnologies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
-        this.props.searchTutorialsReq(this.state.pageSize, 1, searchTechnologies);
+
+        this.props.searchTutorialsReq(this.state.pageSize, 1, searchTechnologies, sortBy, orderBy);
         this.toggleSearch();
         this.setState({ pageIndex: 1 });
     };
