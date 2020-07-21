@@ -20,11 +20,13 @@ const fetchTutorialsFailure = (err) => ({
     payload: err,
 });
 
-export const fetchTutorials = (pageSize, pageIndex, sortBy, orderBy) => async (dispatch) => {
+export const fetchTutorials = (pageSize, pageIndex, sortBy, orderBy, technologies) => async (dispatch) => {
     dispatch(fetchTutorialsStart(pageIndex));
     try {
         const data = await api.get(
-            `/tutorials?pageSize=${pageSize}&&pageIndex=${pageIndex}&&sortBy=${sortBy}&&orderBy=${orderBy}`
+            `/tutorials?pageSize=${pageSize}&&pageIndex=${pageIndex}&&sortBy=${sortBy}&&orderBy=${orderBy}&&tags=${JSON.stringify(
+                technologies
+            )}`
         );
         dispatch(fetchTutorialsSuccess(data.tutorials, data.total, pageIndex));
     } catch (error) {

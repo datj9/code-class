@@ -42,7 +42,10 @@ class HomePage extends React.Component {
         this.setState({ pageIndex: 1 });
     };
     handleSortType = (sortBy, orderBy) => {
-        this.props.fetchTutorialsReq(this.state.pageSize, 1, sortBy, orderBy);
+        const techsObj = this.state.technologies;
+        const searchTechnologies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
+
+        this.props.fetchTutorialsReq(this.state.pageSize, 1, sortBy, orderBy, searchTechnologies);
         this.setState({ sortBy, orderBy });
     };
     listenToScoll = () => {
@@ -163,8 +166,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    fetchTutorialsReq: (pageSize, pageIndex, sortBy, orderBy) =>
-        dispatch(fetchTutorials(pageSize, pageIndex, sortBy, orderBy)),
+    fetchTutorialsReq: (pageSize, pageIndex, sortBy, orderBy, technologies) =>
+        dispatch(fetchTutorials(pageSize, pageIndex, sortBy, orderBy, technologies)),
     searchTutorialsReq: (pageSize, pageIndex, technologies, sortBy, orderBy) =>
         dispatch(searchTutorials(pageSize, pageIndex, technologies, sortBy, orderBy)),
     clearAllTutorialsInStore: () => dispatch(clearAllTutorials()),
