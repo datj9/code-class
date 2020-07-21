@@ -83,7 +83,7 @@ class TutorialPage extends Component {
                 contentLines.push(
                     <rect
                         x='0'
-                        y={(isLargeScreen ? 45 : 93) + (isLargeScreen ? 10 : 17) * i + ""}
+                        y={(isLargeScreen ? 45 : 136) + (isLargeScreen ? 10 : 17) * i + ""}
                         rx='3'
                         ry='3'
                         width='300'
@@ -103,9 +103,10 @@ class TutorialPage extends Component {
                         width={isLargeScreen ? 200 : 300}
                         height={isLargeScreen ? 12 : 24}
                     />
+                    {isLargeScreen ? null : <rect x='0' y='30' rx='5' ry='5' width='300' height='24' />}
                     <rect
                         x='0'
-                        y={isLargeScreen ? 20 : 40}
+                        y={isLargeScreen ? 20 : 74}
                         rx='4'
                         ry='4'
                         width={isLargeScreen ? 30 : 55}
@@ -113,15 +114,15 @@ class TutorialPage extends Component {
                     />
                     <rect
                         x={isLargeScreen ? 270 : 225}
-                        y={isLargeScreen ? 20 : 52}
+                        y={isLargeScreen ? 20 : 74}
                         rx='3'
                         ry='3'
-                        width={isLargeScreen ? 30 : 75}
-                        height={isLargeScreen ? 15 : 35}
+                        width={isLargeScreen ? 30 : 70}
+                        height={isLargeScreen ? 15 : 30}
                     />
                     <rect
                         x='0'
-                        y={isLargeScreen ? 32 : 72}
+                        y={isLargeScreen ? 32 : 95}
                         rx='4'
                         ry='4'
                         width={isLargeScreen ? 50 : 65}
