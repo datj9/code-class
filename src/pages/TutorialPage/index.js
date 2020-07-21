@@ -83,7 +83,7 @@ class TutorialPage extends Component {
                 contentLines.push(
                     <rect
                         x='0'
-                        y={(isLargeScreen ? 45 : 81) + 10 * i + ""}
+                        y={(isLargeScreen ? 45 : 81) + (isLargeScreen ? 10 : 17) * i + ""}
                         rx='3'
                         ry='3'
                         width='300'
