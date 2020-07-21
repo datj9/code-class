@@ -79,7 +79,7 @@ class TutorialPage extends Component {
         const Loader = () => {
             const contentLines = [];
 
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < (isLargeScreen ? 15 : 10); i++) {
                 contentLines.push(
                     <rect
                         x='0'
