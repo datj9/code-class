@@ -11,7 +11,6 @@ class HomePage extends React.Component {
         this.state = {
             openSearch: false,
             openSort: false,
-            sortType: "",
             technologies: { ReactJS: false, JavaScript: false, TypeScript: false },
             pageIndex: 1,
             pageSize: 8,
@@ -153,7 +152,7 @@ class HomePage extends React.Component {
                     </div>
                 </div>
                 <hr />
-                <TutorialsList pageSize={6} sortType={this.state.sortType} />
+                <TutorialsList pageSize={6} />
             </div>
         );
     }
