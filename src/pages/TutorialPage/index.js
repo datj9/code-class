@@ -8,23 +8,12 @@ import moment from "moment";
 import ContentLoader from "react-content-loader";
 import { Link } from "react-router-dom";
 import { saveTutorial, clearErrors } from "../../redux/user/actions";
-import hljs from "highlight.js/lib/highlight";
-import javascript from "highlight.js/lib/languages/javascript";
-import css from "highlight.js/lib/languages/css";
-import scss from "highlight.js/lib/languages/scss";
-import less from "highlight.js/lib/languages/less";
-import bash from "highlight.js/lib/languages/bash";
-
-hljs.registerLanguage("javascript", javascript);
-hljs.registerLanguage("css", css);
-hljs.registerLanguage("scss", scss);
-hljs.registerLanguage("less", less);
-hljs.registerLanguage("bash", bash);
+import Prism from "prismjs";
 
 class TutorialPage extends Component {
     constructor(props) {
         super(props);
-        this.state = { sentIP: false };
+        this.state = { sentIP: false, isHighlight: false };
         this.timer = null;
     }
 
@@ -60,11 +49,11 @@ class TutorialPage extends Component {
 
     componentDidUpdate() {
         const tutorial = this.props.tutorial;
-        const nodes = document.querySelectorAll("pre");
 
-        nodes.forEach((node) => {
-            hljs.highlightBlock(node);
-        });
+        if (!this.state.isHighlight && Object.keys(tutorial).length) {
+            Prism.highlightAll();
+            this.setState({ isHighlight: true });
+        }
 
         if (!this.state.sentIP && Object.keys(tutorial).length > 0) {
             this.setState({ sentIP: true });
