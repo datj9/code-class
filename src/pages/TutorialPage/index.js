@@ -123,9 +123,7 @@ class TutorialPage extends Component {
         };
 
         const SaveTutorialButton = () => {
-            const { savedTutorials } = currentUser;
-
-            if (savedTutorials && savedTutorials.includes(tutorial.id) && !message.includes("success")) {
+            if (tutorial.isSaved && !message.includes("success")) {
                 return null;
             } else if (isAuthenticated && !message.includes("success")) {
                 return (
