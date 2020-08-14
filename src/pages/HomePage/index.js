@@ -4,6 +4,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, FormCheckbox, DropdownItem, But
 import { connect } from "react-redux";
 import { clearAllTutorials, fetchTutorials, searchTutorials } from "../../redux/tutorials/actions";
 import TutorialsList from "../../components/TutorialsList";
+import ChatBox from "../../components/ChatBox";
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -113,6 +114,7 @@ class HomePage extends React.Component {
         return (
             <div className='container homepage'>
                 <div className='breadcrumb-container'>
+                    <ChatBox />
                     <span className='title text-dark font-weight-bold'>Bài hướng dẫn</span>
                     <div className='d-flex'>
                         <Dropdown className='mr-3' open={this.state.openSort} toggle={this.toggleSort}>
