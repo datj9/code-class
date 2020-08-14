@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { fetchOneTutorial, clearTutorial, increaseView } from "../../redux/tutorials/actions";
 import { Button, Badge } from "shards-react";
 import parse from "html-react-parser";
-import moment from "moment";
+import dayjs from "dayjs";
 import ContentLoader from "react-content-loader";
 import { Link } from "react-router-dom";
 import { saveTutorial, clearErrors } from "../../redux/user/actions";
@@ -163,8 +163,8 @@ class TutorialPage extends Component {
                                 <span>Lượt xem: {tutorial.views}</span>
                                 <span>
                                     {Date.now() - new Date(tutorial.createdAt) <= 3 * 24 * 60 * 60 * 1000
-                                        ? moment(tutorial.createdAt).fromNow()
-                                        : moment(tutorial.createdAt).format("MMMM DD")}
+                                        ? dayjs(tutorial.createdAt).fromNow()
+                                        : dayjs(tutorial.createdAt).format("MMMM DD")}
                                 </span>
                             </div>
                             <SaveTutorialButton />

@@ -5,7 +5,7 @@ import { Link, withRouter } from "react-router-dom";
 import { Badge } from "shards-react";
 import CardLoader from "../CardLoader";
 import ThreeDotsLoader from "../ThreeDotsLoader";
-import moment from "moment";
+import dayjs from "dayjs";
 import { fetchTutorials } from "../../redux/tutorials/actions";
 
 class TutorialsList extends Component {
@@ -29,8 +29,8 @@ class TutorialsList extends Component {
                         </span>
                         <span className='mt-2 created-at'>
                             {Date.now() - new Date(tutorial.createdAt) <= 3 * 24 * 60 * 60 * 1000
-                                ? moment(tutorial.createdAt).fromNow()
-                                : moment(tutorial.createdAt).format("MMMM DD")}
+                                ? dayjs(tutorial.createdAt).fromNow()
+                                : dayjs(tutorial.createdAt).format("MMMM DD")}
                         </span>
                         <div>
                             {tutorial.tags.map((tag) => (
