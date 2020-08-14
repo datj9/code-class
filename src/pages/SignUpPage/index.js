@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "./style.css";
 import { Form, FormInput, FormGroup, Button } from "shards-react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -83,7 +84,7 @@ class SignUpPage extends Component {
             return <Redirect to='/' />;
         }
         return (
-            <div className='container my-5'>
+            <div className='container signup'>
                 <h3 className='mb-3'>Đăng ký tài khoản</h3>
                 <Form onSubmit={this.submitForm}>
                     <FormGroup>
@@ -130,7 +131,7 @@ class SignUpPage extends Component {
                         <ConfirmPasswordError />
                     </FormGroup>
                     <Button disabled={isLoading} pill type='submit' onClick={this.submitForm}>
-                        {isLoading ? "Đang Đăng Ký" : "Đăng Ký"}
+                        {isLoading ? "Đang Đăng Ký ..." : "Đăng Ký"}
                     </Button>
                     <div className='mt-2'>
                         <span>Bạn đã có tài khoản </span>

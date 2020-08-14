@@ -7,7 +7,13 @@ const CardLoader = (props) => {
 
     for (let i = 0; i < props.numberOfCards; i++) {
         listCard.push(
-            <ContentLoader key={i} className='card-item' viewBox={isLargeScreen ? "0 0 300 45" : "0 0 300 55"}>
+            <ContentLoader
+                key={i}
+                className='card-item'
+                viewBox={isLargeScreen ? "0 0 300 45" : "0 0 300 55"}
+                backgroundColor='#bdbdbd'
+                foregroundColor='#ccc'
+            >
                 <rect x='0' y='0' rx='5' ry='5' width={isLargeScreen ? 45 : 55} height={isLargeScreen ? 45 : 55} />
                 <rect
                     x={isLargeScreen ? 50 : 60}

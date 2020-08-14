@@ -88,6 +88,8 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 tutorials: [],
+                loaded: false,
+                errors: {},
             };
         default:
             return state;

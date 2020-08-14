@@ -1,3 +1,7 @@
+.homepage {
+    margin: 5rem auto;
+}
+
 .title {
     font-size: 2rem;
 }
@@ -11,6 +15,12 @@ button.dropdown-item:focus {
 .breadcrumb-container {
     display: flex;
     justify-content: space-between;
+}
+
+.scroll-top-btn {
+    position: fixed;
+    right: 1rem;
+    bottom: 2rem;
 }
 
 @media only screen and (max-width: 576px) {

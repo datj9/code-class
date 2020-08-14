@@ -74,6 +74,7 @@ const getSavedTutorialsSuccess = (savedTutorials) => ({
 
 export const getSavedTutorials = () => async (dispatch) => {
     dispatch(getSavedTutorialsStart());
+
     const data = await api.get("/auth/saved-tutorials");
     if (data.length >= 0) {
         dispatch(getSavedTutorialsSuccess(data));

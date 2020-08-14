@@ -62,7 +62,7 @@ class TutorialPage extends Component {
     }
 
     render() {
-        const { tutorial, currentUser, isLoading, isSaving, isAuthenticated, message } = this.props;
+        const { tutorial, isLoading, isSaving, isAuthenticated, message } = this.props;
         const isLargeScreen = window.innerWidth > 768;
 
         const Loader = () => {
@@ -83,7 +83,12 @@ class TutorialPage extends Component {
             }
 
             return (
-                <ContentLoader style={{ width: "100%" }} viewBox='0 0 300 355'>
+                <ContentLoader
+                    style={{ width: "100%" }}
+                    viewBox='0 0 300 355'
+                    backgroundColor='#bdbdbd'
+                    foregroundColor='#ccc'
+                >
                     <rect
                         x='0'
                         y='0'
@@ -147,11 +152,11 @@ class TutorialPage extends Component {
         };
 
         return (
-            <div className='container mt-5'>
+            <div className='container tutorial-page'>
                 {isLoading ? (
                     <Loader />
                 ) : (
-                    <div className='tutorial-page'>
+                    <div>
                         <h3 className='mb-3 tutorial-title'>{tutorial.title}</h3>
                         <div className='mb-3 d-flex justify-content-between'>
                             <div className='d-flex flex-column flex-start'>

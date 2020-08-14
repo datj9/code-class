@@ -80,7 +80,7 @@ class SignInPage extends Component {
                                     <PasswordError />
                                 </FormGroup>
                                 <Button block disabled={isLoading} type='submit' onClick={this.submitForm}>
-                                    {isLoading ? "Đang Đăng Nhập..." : "Đăng Nhập"}
+                                    {isLoading ? "Đang Đăng Nhập ..." : "Đăng Nhập"}
                                 </Button>
                                 <div className='mt-3 text-center'>
                                     <span>Bạn chưa có tài khoản </span>

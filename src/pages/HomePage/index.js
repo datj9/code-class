@@ -11,6 +11,7 @@ class HomePage extends React.Component {
         this.state = {
             openSearch: false,
             openSort: false,
+            showScrollBtn: false,
             technologies: { ReactJS: false, JavaScript: false, TypeScript: false },
             pageIndex: 1,
             pageSize: 8,
@@ -52,9 +53,15 @@ class HomePage extends React.Component {
         const searchTechnologies = Object.keys(techsObj).filter((tech) => techsObj[tech]);
         const { sortBy, orderBy } = this.state;
 
+        if (document.documentElement.scrollTop > 50 || document.body.scrollTop > 50) {
+            this.setState({ showScrollBtn: true });
+        } else {
+            this.setState({ showScrollBtn: false });
+        }
+
         if (
             window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
-            this.state.pageIndex < Math.ceil(this.props.total / this.state.pageSize) &&
+            this.props.total > this.state.pageIndex * this.state.pageSize &&
             searchTechnologies.length === 0 &&
             this.props.tutorials.length > 0
         ) {
@@ -62,7 +69,7 @@ class HomePage extends React.Component {
             this.setState({ pageIndex: this.state.pageIndex + 1 });
         } else if (
             window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
-            this.state.pageIndex < Math.ceil(this.props.total / this.state.pageSize) &&
+            this.props.total > this.state.pageIndex * this.state.pageSize &&
             searchTechnologies.length > 0 &&
             this.props.tutorials.length > 0
         ) {
@@ -77,6 +84,17 @@ class HomePage extends React.Component {
         }
     };
 
+    scrollTop = () => {
+        const scroll = setInterval(() => {
+            if (document.documentElement.scrollTop > 0 || document.body.scrollTop > 0) {
+                document.body.scrollTop = document.body.scrollTop - 50;
+                document.documentElement.scrollTop = document.documentElement.scrollTop - 50;
+            } else {
+                clearInterval(scroll);
+            }
+        }, 5);
+    };
+
     componentWillUnmount() {
         this.props.clearAllTutorialsInStore();
         window.removeEventListener("scroll", this.listenToScoll);
@@ -84,7 +102,7 @@ class HomePage extends React.Component {
 
     componentDidMount() {
         const { sortBy, orderBy } = this.state;
-        this.props.fetchTutorialsReq(this.state.pageSize, 1, sortBy, orderBy);
+        this.props.fetchTutorialsReq(this.state.pageSize, this.state.pageIndex, sortBy, orderBy);
         window.addEventListener("scroll", this.listenToScoll);
     }
 
@@ -93,9 +111,9 @@ class HomePage extends React.Component {
         const { isSearching } = this.props;
 
         return (
-            <div className='container py-5'>
+            <div className='container homepage'>
                 <div className='breadcrumb-container'>
-                    <span className='title text-dark font-weight-bold mb-3'>Bài hướng dẫn</span>
+                    <span className='title text-dark font-weight-bold'>Bài hướng dẫn</span>
                     <div className='d-flex'>
                         <Dropdown className='mr-3' open={this.state.openSort} toggle={this.toggleSort}>
                             <DropdownToggle theme='secondary'>Sắp xếp theo</DropdownToggle>
@@ -153,6 +171,11 @@ class HomePage extends React.Component {
                 </div>
                 <hr />
                 <TutorialsList pageSize={6} />
+                {this.state.showScrollBtn ? (
+                    <Button onClick={this.scrollTop} className='scroll-top-btn' theme='secondary'>
+                        Lên Đầu Trang
+                    </Button>
+                ) : null}
             </div>
         );
     }
