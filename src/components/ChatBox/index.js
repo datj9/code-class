@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import "./style.css";
+import "./style.scss";
 import { useSelector } from "react-redux";
 import { Button, Form, FormGroup, FormInput } from "shards-react";
 import io from "socket.io-client";
 import { apiUrl } from "../../api";
 
 const socket = io.connect(apiUrl);
-export default function ChatBox() {
+export default function ChatBox(props) {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const currentUser = useSelector((state) => state.user.currentUser);
@@ -37,25 +37,35 @@ export default function ChatBox() {
 
     return (
         <div className='chat-box'>
+            <div className='header d-flex justify-content-end px-2'>
+                <span onClick={props.toggleChatBox} role='button' className='d-flex align-items-center'>
+                    <i class='fas fa-times'></i>
+                </span>
+            </div>
             <div className='chat-container'>
-                <div className='messages-list pb-3'>
+                <div className='messages-list'>
                     {messages.map((msg) => (
                         <div
-                            className={`message-item ${currentUser.id === msg.sender.id ? "my-msg" : "friend-msg"}`}
+                            className={`message-item mb-2 ${
+                                currentUser.id === msg.sender.id ? "my-msg" : "friend-msg"
+                            }`}
                             key={msg.id}
                         >
-                            <span> {msg.text}</span>
+                            {currentUser.id !== msg.sender.id ? <span className='avatar'></span> : null}
+                            <span className='message'> {msg.text}</span>
                         </div>
                     ))}
                 </div>
             </div>
             <Form onSubmit={sendMessage}>
-                <FormGroup>
+                <FormGroup className='mb-0 d-flex align-items-center message-input'>
                     <FormInput placeholder='Tin Nhắn' value={message} onChange={handleMessage} />
                 </FormGroup>
-                <Button type='submit' pill>
-                    Gửi
-                </Button>
+                <FormGroup className='mb-0 d-flex align-items-center submit-btn'>
+                    <Button type='submit' pill>
+                        Gửi
+                    </Button>
+                </FormGroup>
             </Form>
         </div>
     );

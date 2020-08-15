@@ -1,0 +1,102 @@
+.chat-box {
+    width: 20rem;
+    height: 25rem;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+    border: 1px solid rgb(209, 209, 209);
+
+    .header {
+        height: 2rem;
+        background: rgb(218, 218, 218);
+    }
+
+    .chat-container {
+        width: 100%;
+        height: 78%;
+        overflow: auto;
+        padding: 1rem 1rem 0;
+
+        .message-item {
+            padding: 0;
+            display: flex;
+            word-break: break-all;
+
+            &.my-msg {
+                justify-content: flex-end;
+
+                span {
+                    display: inline-block;
+                    align-self: center;
+                    padding: 0.5rem 1rem;
+                    border-radius: 1rem;
+                    text-align: left;
+                    background-color: #007bff;
+                    color: #fff;
+                }
+            }
+
+            &.friend-msg {
+                justify-content: flex-start;
+
+                .avatar {
+                    display: inline-block;
+                    margin-right: 1rem;
+                    width: 2.5rem;
+                    height: 2.5rem;
+                    background: green;
+                    border-radius: 50%;
+                }
+
+                .message {
+                    align-self: center;
+                    padding: 0.5rem 1rem;
+                    border-radius: 1rem;
+                    text-align: left;
+                    background: #d9d9d9;
+                    color: #000;
+                }
+            }
+        }
+    }
+
+    form {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 15%;
+        padding: 0 0.3rem;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+
+        .message-input {
+            width: 70%;
+        }
+        .submit-btn {
+            width: 25%;
+
+            button {
+                width: 100%;
+            }
+        }
+    }
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(197, 197, 197, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(197, 197, 197, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(129, 129, 129, 0.8);
+    -webkit-box-shadow: inset 0 0 6px rgba(129, 129, 129, 0.8);
+}

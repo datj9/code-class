@@ -12,6 +12,7 @@ class HomePage extends React.Component {
         this.state = {
             openSearch: false,
             openSort: false,
+            openChatBox: false,
             showScrollBtn: false,
             technologies: { ReactJS: false, JavaScript: false, TypeScript: false },
             pageIndex: 1,
@@ -96,6 +97,10 @@ class HomePage extends React.Component {
         }, 5);
     };
 
+    toggleChatBox = () => {
+        this.setState({ openChatBox: !this.state.openChatBox });
+    };
+
     componentWillUnmount() {
         this.props.clearAllTutorialsInStore();
         window.removeEventListener("scroll", this.listenToScoll);
@@ -108,14 +113,14 @@ class HomePage extends React.Component {
     }
 
     render() {
-        const { technologies } = this.state;
+        const { technologies, openChatBox } = this.state;
         const { isSearching } = this.props;
 
         return (
             <div className='container homepage'>
                 <div className='breadcrumb-container'>
-                    <ChatBox />
-                    <span className='title text-dark font-weight-bold'>Bài hướng dẫn</span>
+                    {openChatBox ? <ChatBox toggleChatBox={this.toggleChatBox} /> : null}
+                    <span className='title text-dark font-weight-bold'>Tutorials</span>
                     <div className='d-flex'>
                         <Dropdown className='mr-3' open={this.state.openSort} toggle={this.toggleSort}>
                             <DropdownToggle theme='secondary'>Sắp xếp theo</DropdownToggle>
@@ -155,7 +160,7 @@ class HomePage extends React.Component {
                                     TypeScript
                                 </FormCheckbox>
                                 <DropdownItem divider />
-                                <DropdownItem disabled>Công nghệ</DropdownItem>
+                                <DropdownItem disabled>Framework, Library</DropdownItem>
                                 <FormCheckbox
                                     className='ml-4'
                                     checked={technologies.ReactJS}
@@ -174,8 +179,18 @@ class HomePage extends React.Component {
                 <hr />
                 <TutorialsList pageSize={6} />
                 {this.state.showScrollBtn ? (
-                    <Button onClick={this.scrollTop} className='scroll-top-btn' theme='secondary'>
-                        Lên Đầu Trang
+                    <Button
+                        onClick={this.scrollTop}
+                        className='scroll-top-btn rounded-circle d-flex justify-content-center align-items-center'
+                        theme='light'
+                    >
+                        <span>
+                            <img
+                                src={require("../../assets/icons/up-chevron.svg")}
+                                alt='chevron'
+                                className='chevron-up'
+                            />
+                        </span>
                     </Button>
                 ) : null}
             </div>
