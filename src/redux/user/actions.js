@@ -107,7 +107,7 @@ const saveTutorialFail = (err) => ({
 
 export const saveTutorial = (tutorialId) => async (dispatch) => {
     dispatch(saveTutorialStart());
-    const data = await api.post(`/auth/save-tutorial?tutorialId=${tutorialId}`);
+    const data = await api.post(`/users/save-tutorial?tutorialId=${tutorialId}`);
 
     if (data.token) {
         const decoded = jwtDecode(data.token);
