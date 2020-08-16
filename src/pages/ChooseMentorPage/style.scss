@@ -1,0 +1,55 @@
+.choose-mentor-page {
+    margin: 5rem auto;
+
+    .list-item {
+        display: flex;
+        justify-content: space-between;
+
+        .mentor-image {
+            align-self: center;
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            background: blue;
+        }
+
+        .mentor-info {
+            width: 60%;
+        }
+
+        .buttons-wp {
+            width: 15%;
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+
+    .backdrop-info-modal {
+        background-color: rgb(0, 0, 0);
+        opacity: 0.8;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .choose-mentor-page {
+        .list-item {
+            flex-direction: column;
+            justify-content: unset;
+
+            .mentor-info {
+                width: 100%;
+                margin: 2rem auto;
+                text-align: center;
+            }
+            .buttons-wp {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+
+                button {
+                    width: 45%;
+                }
+            }
+        }
+    }
+}

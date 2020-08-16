@@ -32,18 +32,18 @@ const Header = () => {
                     <Nav navbar>
                         <li className='nav-item d-flex align-items-center justify-content-center'>
                             <NavLink onClick={toggleNavbar} className='nav-link' to='/'>
-                                Tutorials
+                                Tutorial
                             </NavLink>
                         </li>
                         <li className='nav-item d-flex align-items-center justify-content-center'>
-                            <NavLink onClick={toggleNavbar} className='nav-link' to='/'>
-                                Mentors
+                            <NavLink onClick={toggleNavbar} className='nav-link' to='/mentors'>
+                                Mentor
                             </NavLink>
                         </li>
                         {isAuthenticated ? (
                             <li className='nav-item d-flex align-items-center justify-content-center'>
                                 <NavLink onClick={toggleNavbar} className='nav-link' to='/users/saved-tutorials'>
-                                    Saved Tutorials
+                                    Saved Tutorial
                                 </NavLink>
                             </li>
                         ) : null}

@@ -13,6 +13,7 @@ import SavedTutorialsPage from "./pages/SavedTutorialsPage";
 import checkToken from "./utils/checkToken";
 import { connect } from "react-redux";
 import { setUser } from "./redux/user/actions";
+import ChooseMentorPage from "./pages/ChooseMentorPage";
 
 class App extends Component {
     authenticate = (Page) => {
@@ -40,6 +41,7 @@ class App extends Component {
                     <Route exact path='/sign-up' component={SignUpPage} />
                     <Route exact path='/sign-in' component={SignInPage} />
                     <Route exact path='/tutorials/:tutorialId' component={TutorialPage} />
+                    <Route exact path='/mentors' component={ChooseMentorPage} />
                     <Route exact path='/users/saved-tutorials' render={() => this.authenticate(SavedTutorialsPage)} />
                 </Switch>
             </Router>
