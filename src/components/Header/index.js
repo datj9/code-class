@@ -9,6 +9,7 @@ const Header = () => {
     const [collapseOpen, setCollapseOpen] = useState(false);
     const [openAccountMenu, setOpenAccountMenu] = useState(false);
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
+    const currentUser = useSelector((state) => state.user.currentUser);
     const dispatch = useDispatch();
     const signOutReq = () => {
         setOpenAccountMenu(false);
@@ -79,23 +80,26 @@ const Header = () => {
             {isAuthenticated && <span role='button' onClick={toggleAccountMenu} className='profile-image'></span>}
             {openAccountMenu && isAuthenticated ? (
                 <div>
-                    <div className='arrow-up'></div>
-                    <ul className='account-menu bg-primary'>
+                    <ul className='account-menu bg-white'>
+                        <li className='name mb-3'>{currentUser.name}</li>
                         <li>
                             <Link
                                 onClick={toggleAccountMenu}
-                                className='text-white text-decoration-none'
+                                className='text-primary text-decoration-none'
                                 to='/users/saved-tutorials'
                             >
                                 Bài đã lưu
                             </Link>
                         </li>
-                        <li className='text-white'>Cập nhật thông tin</li>
-                        <li>
-                            <Link onClick={signOutReq} className='text-white text-decoration-none' to='/'>
-                                Đăng xuất
-                            </Link>
-                        </li>
+                        <li className='text-primary'>Cập nhật thông tin</li>
+
+                        <Link
+                            onClick={signOutReq}
+                            className='log-out-btn d-block mx-auto mt-3 text-primary text-decoration-none'
+                            to='/'
+                        >
+                            <Button className='w-100'>Đăng xuất</Button>
+                        </Link>
                     </ul>
                 </div>
             ) : null}

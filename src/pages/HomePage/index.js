@@ -120,7 +120,7 @@ class HomePage extends React.Component {
             <div className='container homepage'>
                 <div className='breadcrumb-container'>
                     {openChatBox ? <ChatBox toggleChatBox={this.toggleChatBox} /> : null}
-                    <span className='title text-dark font-weight-bold'>Tutorials</span>
+                    <span className='title text-dark font-weight-bold'>Tutorial</span>
                     <div className='d-flex'>
                         <Dropdown className='mr-3' open={this.state.openSort} toggle={this.toggleSort}>
                             <DropdownToggle theme='secondary'>Sắp xếp theo</DropdownToggle>

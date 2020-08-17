@@ -4,13 +4,18 @@ import ContentLoader from "react-content-loader";
 import { useDispatch, useSelector } from "react-redux";
 import { getMentorsList } from "../../redux/mentor/actions";
 import { Badge, Button, Container, Modal, ModalBody, ModalFooter, ModalHeader } from "shards-react";
+import ChatBox from "../../components/ChatBox";
+import { connectMentor } from "../../redux/chat/actions";
 
 export default function ChooseMentorPage() {
     const dispatch = useDispatch();
     const mentorsList = useSelector((state) => state.mentor.mentorsList);
     const isLoading = useSelector((state) => state.mentor.isLoading);
+    const currentUser = useSelector((state) => state.user.currentUser);
     const [modalInfoIsOpening, setModalInfoIsOpening] = useState(false);
     const [activeMentor, setActiveMentor] = useState({});
+    const [selectedMentor, setSelectedMentor] = useState({});
+    const [openChatBox, setOpenChatBox] = useState(false);
     const isLargeScreen = window.innerWidth > 576;
 
     const openModalInfo = (mentor) => {
@@ -19,6 +24,14 @@ export default function ChooseMentorPage() {
     };
     const closeModalInfo = () => {
         setModalInfoIsOpening(false);
+    };
+    const selectMentor = (mentor) => {
+        setSelectedMentor(mentor);
+        setOpenChatBox(true);
+        dispatch(connectMentor([currentUser.id, mentor.user.id]));
+    };
+    const closeChatBox = () => {
+        setOpenChatBox(false);
     };
 
     useEffect(() => {
@@ -115,15 +128,26 @@ export default function ChooseMentorPage() {
                                     ) : null}
                                     <div className='mb-1'>
                                         <span className='mr-2'>Có thể mentor</span>
-                                        {mentor.specialities.map((speciality) => (
-                                            <Badge key={speciality} className='mr-1' theme='dark'>
-                                                {speciality}
-                                            </Badge>
-                                        ))}
+                                        {mentor.specialities.length > 3
+                                            ? mentor.specialities.slice(0, 3).map((speciality, i) => (
+                                                  <>
+                                                      <Badge key={speciality} className='mr-1' theme='dark'>
+                                                          {speciality}
+                                                      </Badge>
+                                                      {i === 2 ? <Badge theme='dark'>...</Badge> : null}
+                                                  </>
+                                              ))
+                                            : mentor.specialities.map((speciality) => (
+                                                  <Badge key={speciality} className='mr-1' theme='dark'>
+                                                      {speciality}
+                                                  </Badge>
+                                              ))}
                                     </div>
                                 </div>
                                 <div className='buttons-wp d-flex'>
-                                    <Button className='mb-1'>Chọn Mentor</Button>
+                                    <Button onClick={() => selectMentor(mentor)} className='mb-1'>
+                                        Chọn Mentor
+                                    </Button>
                                     <Button className='mt-1' theme='light' onClick={() => openModalInfo(mentor)}>
                                         Thêm Thông Tin
                                     </Button>
@@ -132,6 +156,7 @@ export default function ChooseMentorPage() {
                         ))}
                     </div>
                 )}
+                {openChatBox ? <ChatBox mentor={selectedMentor} toggleChatBox={closeChatBox} /> : null}
             </Container>
             <Modal open={modalInfoIsOpening} toggle={closeModalInfo} backdropClassName='backdrop-info-modal'>
                 <ModalHeader>Thông tin Mentor</ModalHeader>

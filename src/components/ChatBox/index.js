@@ -6,10 +6,13 @@ import io from "socket.io-client";
 import { apiUrl } from "../../api";
 
 const socket = io.connect(apiUrl);
-export default function ChatBox(props) {
+
+export default function ChatBox({ mentor, toggleChatBox }) {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const currentUser = useSelector((state) => state.user.currentUser);
+    const isConnecting = useSelector((state) => state.chat.isConnecting);
+    const room = useSelector((state) => state.chat.room);
 
     const handleMessage = (e) => {
         setMessage(e.target.value);
@@ -17,13 +20,13 @@ export default function ChatBox(props) {
 
     const sendMessage = (e) => {
         e.preventDefault();
-        socket.emit("room", { roomId: "5f369ce22c9b304f9889ce24", userId: currentUser.id, message });
+        socket.emit("room", { roomId: room.id, userId: currentUser.id, message });
         setMessage("");
     };
 
     useEffect(() => {
-        socket.on("connect", () => {
-            socket.emit("joinRoom", { roomId: "5f369ce22c9b304f9889ce24" });
+        if (room.id) {
+            socket.emit("joinRoom", { roomId: room.id });
             socket.on("messageFromServer", (data) => {
                 setMessages((messages) => {
                     if (messages.length === 0 || data.id !== messages[messages.length - 1].id) {
@@ -32,16 +35,18 @@ export default function ChatBox(props) {
                     return messages;
                 });
             });
-        });
-    }, [currentUser.id]);
+        }
+    }, [room.id]);
 
     return (
         <div className='chat-box'>
-            <div className='header d-flex justify-content-end px-2'>
-                <span onClick={props.toggleChatBox} role='button' className='d-flex align-items-center'>
-                    <i class='fas fa-times'></i>
+            <div className='header d-flex justify-content-between px-2'>
+                <span className='d-flex align-self-center'>{mentor.user.name}</span>
+                <span onClick={toggleChatBox} role='button' className='d-flex align-items-center'>
+                    <i className='fas fa-times'></i>
                 </span>
             </div>
+            {isConnecting ? <div className='bg-info status text-center text-white'>Đang kết nối</div> : null}
             <div className='chat-container'>
                 <div className='messages-list'>
                     {messages.map((msg) => (
