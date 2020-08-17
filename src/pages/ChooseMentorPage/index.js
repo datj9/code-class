@@ -27,14 +27,14 @@ export default function ChooseMentorPage() {
 
     const LoaderList = () => {
         const list = [];
-        const rOfCicle = isLargeScreen ? "15" : "42";
+        const rOfCicle = isLargeScreen ? "15" : "50";
         const xOfFirstTextLine = isLargeScreen ? "50" : "135";
-        const yOfFirstTextLine = isLargeScreen ? "0" : "94";
-        const heightOfFirstTextLine = isLargeScreen ? "8" : "18";
+        const yOfFirstTextLine = isLargeScreen ? "0" : +2 * rOfCircle + 10;
+        const heightOfFirstTextLine = isLargeScreen ? "8" : "20";
         const widthOfFirstTextLine = isLargeScreen ? "100" : "110";
         const xOfSecondTextLine = isLargeScreen ? "50" : "100";
         const yOfSecondTextLine = isLargeScreen ? "15" : +yOfFirstTextLine + +heightOfFirstTextLine + 10;
-        const heightOfSecondTextLine = isLargeScreen ? "8" : "18";
+        const heightOfSecondTextLine = isLargeScreen ? "8" : "20";
         const widthOfSecondTextLine = isLargeScreen ? "150" : "180";
         const xOfFirstBtn = isLargeScreen ? "322" : "0";
         const yOfFirstBtn = isLargeScreen ? "0" : +yOfSecondTextLine + +heightOfSecondTextLine + 20;
