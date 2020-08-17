@@ -28,18 +28,18 @@ export default function ChooseMentorPage() {
     const LoaderList = () => {
         const list = [];
         const rOfCircle = isLargeScreen ? "15" : "50";
-        const xOfFirstTextLine = isLargeScreen ? "50" : "130";
+        const xOfFirstTextLine = isLargeScreen ? "50" : "125";
         const yOfFirstTextLine = isLargeScreen ? "0" : +2 * rOfCircle + 20;
         const heightOfFirstTextLine = isLargeScreen ? "8" : "20";
-        const widthOfFirstTextLine = isLargeScreen ? "100" : "120";
-        const xOfSecondTextLine = isLargeScreen ? "50" : "95";
+        const widthOfFirstTextLine = isLargeScreen ? "100" : "130";
+        const xOfSecondTextLine = isLargeScreen ? "50" : "85";
         const yOfSecondTextLine = isLargeScreen ? "15" : +yOfFirstTextLine + +heightOfFirstTextLine + 10;
         const heightOfSecondTextLine = isLargeScreen ? "8" : "20";
-        const widthOfSecondTextLine = isLargeScreen ? "150" : "190";
+        const widthOfSecondTextLine = isLargeScreen ? "150" : "210";
         const xOfFirstBtn = isLargeScreen ? "322" : "0";
         const yOfFirstBtn = isLargeScreen ? "0" : +yOfSecondTextLine + +heightOfSecondTextLine + 20;
         const widthOfFirstBtn = isLargeScreen ? "58" : "170";
-        const heighOfFirstBtn = isLargeScreen ? "13" : "45";
+        const heighOfFirstBtn = isLargeScreen ? "13" : "40";
         const xOfSecondBtn = isLargeScreen ? "322" : 380 - widthOfFirstBtn;
         const yOfSecondBtn = isLargeScreen ? "20" : yOfFirstBtn;
 
