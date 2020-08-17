@@ -48,7 +48,7 @@ export default function ChooseMentorPage() {
                 <ContentLoader
                     key={i}
                     className='list-item'
-                    viewBox={isLargeScreen ? "0 0 380 33" : "0 0 380 210"}
+                    viewBox={isLargeScreen ? "0 0 380 33" : "0 0 380 230"}
                     backgroundColor='#bdbdbd'
                     foregroundColor='#ccc'
                 >
