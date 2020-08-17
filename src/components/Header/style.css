@@ -14,6 +14,7 @@
     line-height: 3.5rem;
     display: flex;
     align-items: center;
+    margin-left: 0.5rem;
 }
 
 .nav-link {
@@ -26,4 +27,39 @@
 
 .navbar-toggler:focus {
     outline: none;
+}
+
+.profile-image {
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    background: #000;
+    position: absolute;
+    right: 0.5rem;
+}
+
+.account-menu {
+    position: absolute;
+    right: 0.5rem;
+    top: calc(3.6rem + 7px);
+    padding: 1rem;
+    list-style: none;
+
+    border-radius: 0.5rem;
+}
+
+.account-menu li {
+    text-align: right;
+}
+
+.arrow-up {
+    position: absolute;
+    right: calc(1.4rem - 8px);
+    top: 3.6rem;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+
+    border-bottom: 8px solid #006fe6;
 }

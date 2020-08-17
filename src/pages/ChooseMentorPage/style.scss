@@ -4,14 +4,18 @@
     .list-item {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 5rem;
+        margin-bottom: 3rem;
 
         .mentor-image {
             align-self: center;
-            width: 5rem;
-            height: 5rem;
-            border-radius: 50%;
-            background: blue;
+            width: 6rem;
+            height: 6rem;
+
+            img {
+                border-radius: 50%;
+                width: 100%;
+                height: 100%;
+            }
         }
 
         .mentor-info {
@@ -39,7 +43,7 @@
 
             .mentor-info {
                 width: 100%;
-                margin: 2rem auto;
+                margin: 1rem auto;
                 text-align: center;
             }
             .buttons-wp {
