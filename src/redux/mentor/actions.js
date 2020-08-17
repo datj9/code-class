@@ -12,7 +12,7 @@ const getMentorsListSuccess = (mentorsList) => ({
 });
 export const getMentorsList = () => async (dispatch) => {
     dispatch(getMentorsListStart());
-    const data = await api.get("/active-mentors");
+    const data = await api.get("/mentors/active-mentors");
     if (Array.isArray(data)) {
         dispatch(getMentorsListSuccess(data));
     }
