@@ -27,7 +27,7 @@ export default function ChooseMentorPage() {
             <Container>
                 <div className='mentors-list'>
                     {mentorsList.map((mentor) => (
-                        <div className='list-item mb-3' key={mentor.id}>
+                        <div className='list-item' key={mentor.id}>
                             <div className='mentor-image'></div>
                             <div className='mentor-info'>
                                 <div className='mb-1'>{mentor.user.name}</div>
