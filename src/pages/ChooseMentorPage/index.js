@@ -27,7 +27,7 @@ export default function ChooseMentorPage() {
 
     const LoaderList = () => {
         const list = [];
-        const rOfCicle = isLargeScreen ? "15" : "50";
+        const rOfCircle = isLargeScreen ? "15" : "50";
         const xOfFirstTextLine = isLargeScreen ? "50" : "135";
         const yOfFirstTextLine = isLargeScreen ? "0" : +2 * rOfCircle + 10;
         const heightOfFirstTextLine = isLargeScreen ? "8" : "20";
@@ -52,7 +52,7 @@ export default function ChooseMentorPage() {
                     backgroundColor='#bdbdbd'
                     foregroundColor='#ccc'
                 >
-                    <circle cx={isLargeScreen ? rOfCicle : "190"} cy={rOfCicle} r={rOfCicle} />
+                    <circle cx={isLargeScreen ? rOfCircle : "190"} cy={rOfCircle} r={rOfCircle} />
                     <rect
                         x={xOfFirstTextLine}
                         y={yOfFirstTextLine}
