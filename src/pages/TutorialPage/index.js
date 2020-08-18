@@ -144,7 +144,7 @@ class TutorialPage extends Component {
                 );
             } else {
                 return (
-                    <Link to={`/sign-in?tutorialId=${tutorial.id}`}>
+                    <Link to={`/sign-in?tutorial=${tutorial.id}`}>
                         <Button>Lưu Bài</Button>
                     </Link>
                 );

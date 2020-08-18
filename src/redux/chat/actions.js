@@ -13,7 +13,7 @@ const connectMentorSuccess = (room) => ({
 export const connectMentor = (members) => async (dispatch) => {
     dispatch(connectMentorStart());
     const data = await api.post("/rooms/connect-mentor", { members });
-    if (data.id) {
+    if (data.room) {
         dispatch(connectMentorSuccess(data));
     }
 };

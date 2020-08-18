@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "./style.scss";
 import ContentLoader from "react-content-loader";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,17 +6,20 @@ import { getMentorsList } from "../../redux/mentor/actions";
 import { Badge, Button, Container, Modal, ModalBody, ModalFooter, ModalHeader } from "shards-react";
 import ChatBox from "../../components/ChatBox";
 import { connectMentor } from "../../redux/chat/actions";
+import queryString from "query-string";
 
-export default function ChooseMentorPage() {
+export default function ChooseMentorPage(props) {
     const dispatch = useDispatch();
     const mentorsList = useSelector((state) => state.mentor.mentorsList);
     const isLoading = useSelector((state) => state.mentor.isLoading);
     const currentUser = useSelector((state) => state.user.currentUser);
+    const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     const [modalInfoIsOpening, setModalInfoIsOpening] = useState(false);
     const [activeMentor, setActiveMentor] = useState({});
     const [selectedMentor, setSelectedMentor] = useState({});
     const [openChatBox, setOpenChatBox] = useState(false);
     const isLargeScreen = window.innerWidth > 576;
+    const { mentor: mentorId } = queryString.parse(props.location.search);
 
     const openModalInfo = (mentor) => {
         setModalInfoIsOpening(true);
@@ -25,11 +28,18 @@ export default function ChooseMentorPage() {
     const closeModalInfo = () => {
         setModalInfoIsOpening(false);
     };
-    const selectMentor = (mentor) => {
-        setSelectedMentor(mentor);
-        setOpenChatBox(true);
-        dispatch(connectMentor([currentUser.id, mentor.user.id]));
-    };
+    const selectMentor = useCallback(
+        (mentor) => {
+            if (isAuthenticated && selectedMentor.id !== mentor.id) {
+                setSelectedMentor(mentor);
+                setOpenChatBox(true);
+                dispatch(connectMentor([currentUser.id, mentor.user.id]));
+            } else if (!isAuthenticated) {
+                props.history.push(`/sign-in?mentor=${mentor.id}`);
+            }
+        },
+        [currentUser.id, dispatch, isAuthenticated, props.history, selectedMentor.id]
+    );
     const closeChatBox = () => {
         setOpenChatBox(false);
     };
@@ -38,6 +48,13 @@ export default function ChooseMentorPage() {
         dispatch(getMentorsList());
     }, [dispatch]);
 
+    useEffect(() => {
+        if (mentorId && mentorsList?.length) {
+            const mentor = mentorsList.find((m) => m.id === mentorId);
+            selectMentor(mentor);
+        }
+    }, [mentorsList, mentorId, selectMentor]);
+
     const LoaderList = () => {
         const list = [];
         const rOfCircle = isLargeScreen ? "15" : "50";
@@ -45,10 +62,10 @@ export default function ChooseMentorPage() {
         const yOfFirstTextLine = isLargeScreen ? "0" : +2 * rOfCircle + 20;
         const heightOfFirstTextLine = isLargeScreen ? "8" : "20";
         const widthOfFirstTextLine = isLargeScreen ? "100" : "130";
-        const xOfSecondTextLine = isLargeScreen ? "50" : "85";
+        const xOfSecondTextLine = isLargeScreen ? "50" : "80";
         const yOfSecondTextLine = isLargeScreen ? "15" : +yOfFirstTextLine + +heightOfFirstTextLine + 10;
         const heightOfSecondTextLine = isLargeScreen ? "8" : "20";
-        const widthOfSecondTextLine = isLargeScreen ? "150" : "210";
+        const widthOfSecondTextLine = isLargeScreen ? "150" : "220";
         const xOfFirstBtn = isLargeScreen ? "322" : "0";
         const yOfFirstBtn = isLargeScreen ? "0" : +yOfSecondTextLine + +heightOfSecondTextLine + 20;
         const widthOfFirstBtn = isLargeScreen ? "58" : "170";

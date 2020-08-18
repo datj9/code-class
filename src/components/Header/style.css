@@ -29,12 +29,26 @@
     outline: none;
 }
 
+.large-screen-signup-btn,
+.large-screen-login-btn,
+.large-screen-logout-btn {
+    display: none;
+}
+.user-icon {
+    display: inline-block;
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+    color: #000;
+}
+.user-icon:hover {
+    color: #000;
+}
 .profile-image {
     display: block;
     width: 1.8rem;
     height: 1.8rem;
     border-radius: 50%;
-    background: #000;
+    /* background: #000; */
     position: absolute;
     right: 0.5rem;
 }
@@ -74,6 +88,16 @@
 
 @media only screen and (min-width: 768px) {
     .profile-image {
+        display: none;
+    }
+
+    .large-screen-signup-btn,
+    .large-screen-login-btn,
+    .large-screen-logout-btn {
+        display: flex;
+        justify-content: center;
+    }
+    .user-icon {
         display: none;
     }
 }

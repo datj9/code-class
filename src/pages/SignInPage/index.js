@@ -26,7 +26,7 @@ class SignInPage extends Component {
 
     render() {
         const { isAuthenticated, isLoading, errorsFromStore: errors } = this.props;
-        const { tutorialId } = queryString.parse(this.props.location.search);
+        const { tutorial: tutorialId, mentor: mentorId } = queryString.parse(this.props.location.search);
 
         const EmailError = () => {
             if (errors.email && errors.email.includes("exist")) {
@@ -47,15 +47,17 @@ class SignInPage extends Component {
             return null;
         };
 
-        if (isAuthenticated && !tutorialId) {
+        if (isAuthenticated && !tutorialId && !mentorId) {
             return <Redirect to='/' />;
         } else if (isAuthenticated && tutorialId) {
             return <Redirect to={`/tutorials/${tutorialId}`} />;
+        } else if (isAuthenticated && mentorId) {
+            return <Redirect to={`/mentors?mentor=${mentorId}`} />;
         } else {
             return (
-                <div className='bg-primary sign-in'>
+                <div className='bg-primary w-100 sign-in'>
                     <div className='container h-100 w-100 position-relative'>
-                        <div className='form-container px-3 d-flex flex-column bg-white'>
+                        <div className='form-container px-3 d-flex flex-column justify-content-center bg-white'>
                             <h3 className='mb-3 text-center'>Đăng Nhập</h3>
                             <Form onSubmit={this.submitForm}>
                                 <FormGroup>

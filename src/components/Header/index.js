@@ -51,14 +51,14 @@ const Header = () => {
                         </li>
                     ) : null}
                     {isAuthenticated ? null : (
-                        <li className='nav-item d-flex justify-content-center'>
+                        <li className='nav-item large-screen-signup-btn'>
                             <NavLink onClick={toggleNavbar} className='nav-link' to='/sign-up'>
                                 <Button pill>Đăng ký</Button>
                             </NavLink>
                         </li>
                     )}
                     {isAuthenticated ? null : (
-                        <li className='nav-item d-flex justify-content-center'>
+                        <li className='nav-item large-screen-login-btn'>
                             <NavLink onClick={toggleNavbar} className='nav-link' to='/sign-in'>
                                 <Button pill outline>
                                     Đăng nhập
@@ -67,7 +67,7 @@ const Header = () => {
                         </li>
                     )}
                     {isAuthenticated ? (
-                        <li className='nav-item d-flex justify-content-center'>
+                        <li className='nav-item large-screen-logout-btn'>
                             <NavLink onClick={signOutReq} className='nav-link' to='/'>
                                 <Button pill outline>
                                     Đăng xuất
@@ -77,7 +77,13 @@ const Header = () => {
                     ) : null}
                 </Nav>
             </Collapse>
-            {isAuthenticated && <span role='button' onClick={toggleAccountMenu} className='profile-image'></span>}
+            {isAuthenticated ? (
+                <span role='button' onClick={toggleAccountMenu} className='profile-image'></span>
+            ) : (
+                <Link to='/sign-in' role='button' className='user-icon'>
+                    <i className='fas fa-user' />
+                </Link>
+            )}
             {openAccountMenu && isAuthenticated ? (
                 <div>
                     <ul className='account-menu bg-white'>

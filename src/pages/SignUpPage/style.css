@@ -1,3 +1,37 @@
 .signup {
-    margin-top: 5rem;
+    position: absolute;
+    top: 4rem;
+    left: 0;
+    min-height: calc(100vh - 4rem);
+    height: 40rem;
+    width: 100%;
+}
+
+.signup .form-container {
+    width: 100%;
+    padding: 1rem;
+    justify-content: flex-start;
+}
+
+.signup form {
+    margin: 0 auto;
+}
+
+@media only screen and (min-width: 576px) {
+    .signup .form-container {
+        width: 80%;
+        height: 98%;
+        margin: 0 auto;
+        justify-content: center;
+    }
+}
+@media only screen and (min-width: 768px) {
+    .signup .form-container {
+        width: 75%;
+    }
+}
+@media only screen and (min-width: 1024px) {
+    .signup .form-container {
+        width: 45%;
+    }
 }

@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "./style.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormGroup, FormInput } from "shards-react";
 import io from "socket.io-client";
 import { apiUrl } from "../../api";
+import { ADD_MESSAGE_INTO_LIST } from "../../redux/chat/action-types";
 
 const socket = io.connect(apiUrl);
 
 export default function ChatBox({ mentor, toggleChatBox }) {
     const [message, setMessage] = useState("");
-    const [messages, setMessages] = useState([]);
     const currentUser = useSelector((state) => state.user.currentUser);
     const isConnecting = useSelector((state) => state.chat.isConnecting);
     const room = useSelector((state) => state.chat.room);
+    const messagesList = useSelector((state) => state.chat.messagesList);
+    const dispatch = useDispatch();
 
     const handleMessage = (e) => {
         setMessage(e.target.value);
@@ -28,15 +30,17 @@ export default function ChatBox({ mentor, toggleChatBox }) {
         if (room.id) {
             socket.emit("joinRoom", { roomId: room.id });
             socket.on("messageFromServer", (data) => {
-                setMessages((messages) => {
-                    if (messages.length === 0 || data.id !== messages[messages.length - 1].id) {
-                        return messages.concat([data]);
-                    }
-                    return messages;
+                dispatch({
+                    type: ADD_MESSAGE_INTO_LIST,
+                    payload: data,
                 });
             });
         }
-    }, [room.id]);
+    }, [dispatch, room.id, messagesList]);
+
+    useEffect(() => {
+        setMessage("");
+    }, [mentor.id]);
 
     return (
         <div className='chat-box'>
@@ -49,7 +53,7 @@ export default function ChatBox({ mentor, toggleChatBox }) {
             {isConnecting ? <div className='bg-info status text-center text-white'>Đang kết nối</div> : null}
             <div className='chat-container'>
                 <div className='messages-list'>
-                    {messages.map((msg) => (
+                    {messagesList.map((msg) => (
                         <div
                             className={`message-item mb-2 ${
                                 currentUser.id === msg.sender.id ? "my-msg" : "friend-msg"
