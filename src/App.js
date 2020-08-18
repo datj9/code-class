@@ -14,6 +14,7 @@ import checkToken from "./utils/checkToken";
 import { connect } from "react-redux";
 import { setUser } from "./redux/user/actions";
 import ChooseMentorPage from "./pages/ChooseMentorPage";
+import UpdateUserInfoPage from "./pages/UpdateUserInfoPage";
 
 class App extends Component {
     authenticate = (Page) => {
@@ -43,6 +44,7 @@ class App extends Component {
                     <Route exact path='/tutorials/:tutorialId' component={TutorialPage} />
                     <Route exact path='/mentors' component={ChooseMentorPage} />
                     <Route exact path='/users/saved-tutorials' render={() => this.authenticate(SavedTutorialsPage)} />
+                    <Route exact path='/users/update-info' render={() => this.authenticate(UpdateUserInfoPage)} />
                 </Switch>
             </Router>
         );

@@ -117,3 +117,44 @@ export const saveTutorial = (tutorialId) => async (dispatch) => {
         dispatch(saveTutorialFail(data));
     }
 };
+
+const uploadProfileImageStart = () => ({
+    type: actionTypes.UPLOAD_PROFILE_IMAGE_START,
+});
+const uploadProfileImageSuccess = (imageUrl) => ({
+    type: actionTypes.UPLOAD_PROFILE_IMAGE_SUCCESS,
+    payload: imageUrl,
+});
+export const uploadProfileImage = (file) => async (dispatch) => {
+    dispatch(uploadProfileImageStart());
+    const formData = new FormData();
+    formData.append("image", file);
+    const data = await api.post("/users/upload-profile", formData, "formData");
+    if (data.linkUrl) {
+        dispatch(uploadProfileImageSuccess(data.linkUrl));
+    }
+};
+
+const updateUserInfoStart = () => ({
+    type: actionTypes.UPDATE_USER_INFO_START,
+});
+const updateUserInfoSuccess = (user) => ({
+    type: actionTypes.UPDATE_USER_INFO_SUCCESS,
+    payload: user,
+});
+const updateUserInfoErr = (errors) => ({
+    type: actionTypes.UPDATE_USER_INFO_SUCCESS,
+    payload: errors,
+});
+export const updateUserInfo = (userInfo) => async (dispatch) => {
+    dispatch(updateUserInfoStart());
+    const data = await api.put("/users", userInfo);
+    if (data.token) {
+        const { token } = data;
+        localStorage.setItem("token", token);
+        const decodedUser = jwtDecode(token);
+        dispatch(updateUserInfoSuccess(decodedUser));
+    } else {
+        dispatch(updateUserInfoErr(data));
+    }
+};

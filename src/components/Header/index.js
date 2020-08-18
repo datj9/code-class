@@ -12,7 +12,7 @@ const Header = () => {
     const currentUser = useSelector((state) => state.user.currentUser);
     const dispatch = useDispatch();
     const signOutReq = () => {
-        setOpenAccountMenu(false);
+        toggleAccountMenu();
         setCollapseOpen(false);
         dispatch(signOut());
     };
@@ -26,6 +26,9 @@ const Header = () => {
     const toggleAccountMenu = () => {
         setOpenAccountMenu(!openAccountMenu);
     };
+    // const closeAccountMenu = () => {
+    //     setOpenAccountMenu(false)
+    // }
 
     return (
         <Navbar type='light' theme='white' expand='md'>
@@ -78,7 +81,9 @@ const Header = () => {
                 </Nav>
             </Collapse>
             {isAuthenticated ? (
-                <span role='button' onClick={toggleAccountMenu} className='profile-image'></span>
+                <span role='button' onClick={toggleAccountMenu} className='profile-image'>
+                    <img src={currentUser.profileImageURL} alt='profile' />
+                </span>
             ) : (
                 <Link to='/sign-in' role='button' className='user-icon'>
                     <i className='fas fa-user' />
@@ -97,7 +102,11 @@ const Header = () => {
                                 Bài đã lưu
                             </Link>
                         </li>
-                        <li className='text-primary'>Cập nhật thông tin</li>
+                        <li className='text-primary'>
+                            <Link onClick={toggleAccountMenu} className='text-decoration-none' to='/users/update-info'>
+                                Cập nhật thông tin
+                            </Link>
+                        </li>
 
                         <Link
                             onClick={signOutReq}
