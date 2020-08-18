@@ -48,6 +48,7 @@
     width: 1.8rem;
     height: 1.8rem;
     border-radius: 50%;
+    overflow: hidden;
     position: absolute;
     right: 0.5rem;
 }
