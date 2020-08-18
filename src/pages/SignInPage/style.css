@@ -29,6 +29,7 @@
 
 @media only screen and (min-width: 576px) {
     .form-container {
+        justify-content: center;
         width: 75%;
         height: 80%;
     }
