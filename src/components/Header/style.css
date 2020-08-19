@@ -35,6 +35,8 @@
     display: none;
 }
 .user-icon {
+    position: absolute;
+    right: 0;
     display: inline-block;
     font-size: 1.5rem;
     color: rgb(85, 85, 85);
