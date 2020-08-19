@@ -34,8 +34,12 @@
 .large-screen-logout-btn {
     display: none;
 }
+.fa-user {
+    display: inline-block;
+    font-size: 1.5rem;
+}
 .btn-wp {
-    display: flex;
+    display: none;
     right: 0;
 }
 
@@ -90,7 +94,14 @@ img {
 .log-out-btn {
     width: calc(100% - 2rem);
 }
-
+@media only screen and(min-width:576px) {
+    .btn-wp {
+        display: flex;
+    }
+    .fa-user {
+        display: none;
+    }
+}
 @media only screen and (min-width: 768px) {
     .btn-wp {
         display: none;

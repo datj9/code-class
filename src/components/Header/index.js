@@ -113,6 +113,7 @@ class Header extends Component {
                     </span>
                 ) : (
                     <div className='btn-wp w-50 justify-content-end position-absolute btn-wp'>
+                        <i className='fas fa-user' />
                         <Link to='/sign-in' role='button'>
                             <Button outline>Đăng Nhập</Button>
                         </Link>
