@@ -34,9 +34,13 @@
 .large-screen-logout-btn {
     display: none;
 }
-.fa-user {
+.user-icon {
     display: inline-block;
     font-size: 1.5rem;
+    color: rgb(85, 85, 85);
+}
+.user-icon:hover {
+    color: rgb(85, 85, 85);
 }
 .btn-wp {
     display: none;
@@ -52,7 +56,7 @@
     position: absolute;
     right: 0.5rem;
 }
-img {
+.navbar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -94,11 +98,11 @@ img {
 .log-out-btn {
     width: calc(100% - 2rem);
 }
-@media only screen and(min-width:576px) {
+@media only screen and (min-width: 576px) {
     .btn-wp {
         display: flex;
     }
-    .fa-user {
+    .user-icon {
         display: none;
     }
 }

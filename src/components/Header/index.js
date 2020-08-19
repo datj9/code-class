@@ -112,15 +112,19 @@ class Header extends Component {
                         )}
                     </span>
                 ) : (
-                    <div className='btn-wp w-50 justify-content-end position-absolute btn-wp'>
-                        <i className='fas fa-user' />
-                        <Link to='/sign-in' role='button'>
-                            <Button outline>Đăng Nhập</Button>
+                    <>
+                        <Link to='/sign-in' className='user-icon text-decoration-none mr-2'>
+                            <i className='fas fa-user' />
                         </Link>
-                        <Link to='/sign-up' className='mr-2 ml-3'>
-                            <Button>Đăng Ký</Button>
-                        </Link>
-                    </div>
+                        <div className='btn-wp w-50 justify-content-end position-absolute btn-wp'>
+                            <Link to='/sign-in' role='button'>
+                                <Button outline>Đăng Nhập</Button>
+                            </Link>
+                            <Link to='/sign-up' className='mr-2 ml-3'>
+                                <Button>Đăng Ký</Button>
+                            </Link>
+                        </div>
+                    </>
                 )}
                 {accountMenuOpen && isAuthenticated ? (
                     <div ref={accountMenuRef}>
