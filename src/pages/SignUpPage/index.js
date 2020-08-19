@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import "./style.css";
+import "./style.scss";
 import { Form, FormInput, FormGroup, Button } from "shards-react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { signUp, clearErrors } from "../../redux/user/actions";
+import withHeader from "../../HOC/withHeader";
 
 class SignUpPage extends Component {
     state = { email: "", password: "", confirmPassword: "", name: "" };
@@ -85,70 +86,70 @@ class SignUpPage extends Component {
         }
         return (
             <div className='bg-primary signup'>
-                <div className='container w-100 h-100'>
-                    <div className='form-container d-flex flex-column bg-white'>
-                        <h3 className='mb-3 text-center'>Đăng ký tài khoản</h3>
-                        <Form className='d-flex flex-column w-100' onSubmit={this.submitForm}>
-                            <FormGroup>
-                                <label htmlFor='email'>Email</label>
-                                <FormInput
-                                    invalid={errors.email ? true : false}
-                                    id='email'
-                                    placeholder='Email'
-                                    onChange={this.handleEmail}
-                                />
-                                <EmailError />
-                            </FormGroup>
-                            <FormGroup>
-                                <label htmlFor='name'>Họ Tên</label>
-                                <FormInput
-                                    invalid={errors.name ? true : false}
-                                    type='text'
-                                    placeholder='Họ Tên'
-                                    id='name'
-                                    onChange={this.handleName}
-                                />
-                                <NameError />
-                            </FormGroup>
-                            <FormGroup>
-                                <label htmlFor='password'>Mật khẩu</label>
-                                <FormInput
-                                    invalid={errors.password ? true : false}
-                                    type='password'
-                                    placeholder='Mật khẩu'
-                                    id='password'
-                                    onChange={this.handlePassword}
-                                />
-                                <PasswordError />
-                            </FormGroup>
-                            <FormGroup>
-                                <label htmlFor='confirmPassword'>Xác nhận mật khẩu</label>
-                                <FormInput
-                                    invalid={errors.confirmPassword ? true : false}
-                                    type='password'
-                                    placeholder='Xác nhận mật khẩu'
-                                    id='confirmPassword'
-                                    onChange={this.handleConfirmPassword}
-                                />
-                                <ConfirmPasswordError />
-                            </FormGroup>
-                            <Button
-                                className='w-50 align-self-center'
-                                disabled={isLoading}
-                                type='submit'
-                                onClick={this.submitForm}
-                            >
-                                {isLoading ? "Đang Đăng Ký ..." : "Đăng Ký"}
-                            </Button>
-                            <div className='mt-2 text-center'>
-                                <span>Bạn đã có tài khoản </span>
-                                <Link className='text-decoration-none' to='/sign-in'>
-                                    Đăng Nhập
-                                </Link>
-                            </div>
-                        </Form>
-                    </div>
+                {/* <div className='container w-100 h-100'> */}
+                <div className='form-container d-flex flex-column bg-white'>
+                    <h3 className='mb-3 text-center'>Đăng ký tài khoản</h3>
+                    <Form className='d-flex flex-column w-100' onSubmit={this.submitForm}>
+                        <FormGroup>
+                            <label htmlFor='email'>Email</label>
+                            <FormInput
+                                invalid={errors.email ? true : false}
+                                id='email'
+                                placeholder='Email'
+                                onChange={this.handleEmail}
+                            />
+                            <EmailError />
+                        </FormGroup>
+                        <FormGroup>
+                            <label htmlFor='name'>Họ Tên</label>
+                            <FormInput
+                                invalid={errors.name ? true : false}
+                                type='text'
+                                placeholder='Họ Tên'
+                                id='name'
+                                onChange={this.handleName}
+                            />
+                            <NameError />
+                        </FormGroup>
+                        <FormGroup>
+                            <label htmlFor='password'>Mật khẩu</label>
+                            <FormInput
+                                invalid={errors.password ? true : false}
+                                type='password'
+                                placeholder='Mật khẩu'
+                                id='password'
+                                onChange={this.handlePassword}
+                            />
+                            <PasswordError />
+                        </FormGroup>
+                        <FormGroup>
+                            <label htmlFor='confirmPassword'>Xác nhận mật khẩu</label>
+                            <FormInput
+                                invalid={errors.confirmPassword ? true : false}
+                                type='password'
+                                placeholder='Xác nhận mật khẩu'
+                                id='confirmPassword'
+                                onChange={this.handleConfirmPassword}
+                            />
+                            <ConfirmPasswordError />
+                        </FormGroup>
+                        <Button
+                            className='w-50 align-self-center'
+                            disabled={isLoading}
+                            type='submit'
+                            onClick={this.submitForm}
+                        >
+                            {isLoading ? "Đang Đăng Ký ..." : "Đăng Ký"}
+                        </Button>
+                        <div className='mt-2 text-center'>
+                            <span>Bạn đã có tài khoản </span>
+                            <Link className='text-decoration-none' to='/sign-in'>
+                                Đăng Nhập
+                            </Link>
+                        </div>
+                    </Form>
                 </div>
+                {/* </div> */}
             </div>
         );
     }
@@ -165,4 +166,4 @@ const mapDispatchToProps = (dispatch) => ({
     clearErrorsReq: () => dispatch(clearErrors()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage);
+export default connect(mapStateToProps, mapDispatchToProps)(withHeader(SignUpPage));

@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { clearAllTutorials, fetchTutorials, searchTutorials } from "../../redux/tutorials/actions";
 import TutorialsList from "../../components/TutorialsList";
 import ChatBox from "../../components/ChatBox";
+import withHeader from "../../HOC/withHeader";
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -212,4 +213,4 @@ const mapDispatchToProps = (dispatch) => ({
     clearAllTutorialsInStore: () => dispatch(clearAllTutorials()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
+export default connect(mapStateToProps, mapDispatchToProps)(withHeader(HomePage));

@@ -9,6 +9,7 @@ import ContentLoader from "react-content-loader";
 import { Link } from "react-router-dom";
 import { saveTutorial, clearErrors } from "../../redux/user/actions";
 import Prism from "prismjs";
+import withHeader from "../../HOC/withHeader";
 
 class TutorialPage extends Component {
     constructor(props) {
@@ -201,4 +202,4 @@ const mapDispatchToProps = (dispatch) => ({
     increaseViewReq: (tutorialId) => dispatch(increaseView(tutorialId)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TutorialPage);
+export default connect(mapStateToProps, mapDispatchToProps)(withHeader(TutorialPage));

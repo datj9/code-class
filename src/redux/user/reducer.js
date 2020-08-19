@@ -104,9 +104,9 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 isLoading: true,
+                message: "",
             };
         case actionTypes.UPDATE_USER_INFO_SUCCESS:
-            console.log(payload);
             return {
                 ...state,
                 isLoading: false,

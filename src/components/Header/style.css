@@ -34,22 +34,28 @@
 .large-screen-logout-btn {
     display: none;
 }
-.user-icon {
-    position: absolute;
-    right: 0.5rem;
-    font-size: 1.2rem;
-    color: #000;
+.btn-wp {
+    display: flex;
+    right: 0;
 }
-.user-icon:hover {
-    color: #000;
-}
+
 .profile-image {
     display: block;
-    width: 1.8rem;
-    height: 1.8rem;
+    width: 2.6rem;
+    height: 2.6rem;
     border-radius: 50%;
+    overflow: hidden;
     position: absolute;
     right: 0.5rem;
+}
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+}
+.name-icon {
+    padding: 0.3rem;
 }
 .account-menu {
     position: absolute;
@@ -57,7 +63,7 @@
     top: 3.4rem;
     padding: 1rem 0;
     list-style: none;
-    border: 1px solid rgb(214, 214, 214);
+    border: 1px solid rgb(235, 235, 235);
     border-radius: 0.3rem;
 }
 
@@ -71,14 +77,14 @@
 .account-menu li {
     text-align: left;
     margin: 0;
-    padding: 0.5rem 1rem;
+    padding: 0.3rem 1rem;
 }
 
 .account-menu li:nth-child(2) {
-    border-top: 1px solid rgb(214, 214, 214);
+    border-top: 1px solid rgb(235, 235, 235);
 }
 .account-menu li:not(:first-child) {
-    border-bottom: 1px solid rgb(214, 214, 214);
+    border-bottom: 1px solid rgb(235, 235, 235);
 }
 
 .log-out-btn {
@@ -86,8 +92,13 @@
 }
 
 @media only screen and (min-width: 768px) {
-    .profile-image {
+    .btn-wp {
         display: none;
+    }
+    .profile-image {
+        position: relative;
+        right: 0;
+        margin: 0.625rem 1.125rem;
     }
 
     .large-screen-signup-btn,
@@ -95,8 +106,5 @@
     .large-screen-logout-btn {
         display: flex;
         justify-content: center;
-    }
-    .user-icon {
-        display: none;
     }
 }

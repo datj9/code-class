@@ -7,8 +7,9 @@ import { Badge, Button, Container, Modal, ModalBody, ModalFooter, ModalHeader } 
 import ChatBox from "../../components/ChatBox";
 import { connectMentor } from "../../redux/chat/actions";
 import queryString from "query-string";
+import withHeader from "../../HOC/withHeader";
 
-export default function ChooseMentorPage(props) {
+function ChooseMentorPage(props) {
     const dispatch = useDispatch();
     const mentorsList = useSelector((state) => state.mentor.mentorsList);
     const isLoading = useSelector((state) => state.mentor.isLoading);
@@ -200,3 +201,5 @@ export default function ChooseMentorPage(props) {
         </div>
     );
 }
+
+export default withHeader(ChooseMentorPage);

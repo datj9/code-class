@@ -4,7 +4,6 @@ import "shards-ui/dist/css/shards.min.css";
 import "prismjs/themes/prism-tomorrow.css";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
-import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
@@ -36,7 +35,6 @@ class App extends Component {
     render() {
         return (
             <Router>
-                <Header />
                 <Switch>
                     <Route exact path='/' component={HomePage} />
                     <Route exact path='/sign-up' component={SignUpPage} />

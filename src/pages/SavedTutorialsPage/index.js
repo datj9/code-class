@@ -3,8 +3,9 @@ import "./style.css";
 import { useSelector, useDispatch } from "react-redux";
 import { clearAllTutorials, getSavedTutorials } from "../../redux/tutorials/actions";
 import TutorialsList from "../../components/TutorialsList";
+import withHeader from "../../HOC/withHeader";
 
-export default function SavedTutorialsPage() {
+function SavedTutorialsPage() {
     const loaded = useSelector((state) => state.tutorial.loaded);
     const tutorials = useSelector((state) => state.tutorial.tutorials);
     const dispatch = useDispatch();
@@ -29,3 +30,5 @@ export default function SavedTutorialsPage() {
         </div>
     );
 }
+
+export default withHeader(SavedTutorialsPage);

@@ -4,14 +4,17 @@ import { Form, FormInput, FormGroup, Button, Alert } from "shards-react";
 import { clearErrors, uploadProfileImage, updateUserInfo } from "../../redux/user/actions";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
+import withHeader from "../../HOC/withHeader";
 
-export default function UpdateUserInfoPage() {
+function UpdateUserInfoPage() {
     const [name, setName] = useState("");
     const [tel, setTel] = useState("");
     const [dateOfBirth, setDateOfBirth] = useState("2000-08-19");
+    const [selectedDate, setSelectedDate] = useState(false);
     const [imageURLOfUser, setImageURLOfUser] = useState("");
     const [alertSuccess, setAlertSuccess] = useState(false);
-    const [count, setCount] = useState(3000);
+    const [count, setCount] = useState(-1);
+    const [nameErrorMesage, setNameErrorMesage] = useState("");
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user.currentUser);
     const isLoading = useSelector((state) => state.user.isLoading);
@@ -26,51 +29,59 @@ export default function UpdateUserInfoPage() {
         const file = e.target?.files[0];
         dispatch(uploadProfileImage(file));
     };
+    const handleDateOfBirth = (e) => {
+        setDateOfBirth(e.target.value);
+        if (!selectedDate) {
+            setSelectedDate(true);
+        }
+    };
     const submitForm = (e) => {
         e.preventDefault();
-        dispatch(
-            updateUserInfo({
-                name,
-                phoneNumber: tel,
-                profileImageURL: profileImageURL ? profileImageURL : imageURLOfUser,
-                dateOfBirth,
-            })
-        );
-    };
-
-    const NameError = () => {
-        const { name } = errors;
-        if (name && name.includes("required")) {
-            return <div className='text-danger mt-1'>Vui lòng nhập vào tên</div>;
+        if (name) {
+            dispatch(
+                updateUserInfo({
+                    name,
+                    phoneNumber: tel,
+                    dateOfBirth: selectedDate ? dateOfBirth : currentUser.dateOfBirth,
+                    profileImageURL: profileImageURL ? profileImageURL : imageURLOfUser,
+                })
+            );
+        } else {
+            setNameErrorMesage("Vui lòng nhập họ tên");
         }
-        return null;
     };
 
     useEffect(() => {
         setName(currentUser.name);
         setTel(currentUser.phoneNumber);
-        setDateOfBirth(dayjs(currentUser.dateOfBirth).format("YYYY-MM-DD"));
         setImageURLOfUser(currentUser.profileImageURL);
+        setDateOfBirth(dayjs(currentUser.dateOfBirth ? currentUser.dateOfBirth : Date.now()).format("YYYY-MM-DD"));
 
         return () => {
             dispatch(clearErrors());
         };
-    }, [currentUser.name, currentUser.phoneNumber, currentUser.dateOfBirth, currentUser.profileImageURL, dispatch]);
+    }, [dispatch, currentUser.name, currentUser.phoneNumber, currentUser.profileImageURL, currentUser.dateOfBirth]);
     useEffect(() => {
         if (message === "success") {
-            if (count === 3000) {
-                setAlertSuccess(true);
-            }
-            const renderAlert = setInterval(() => {
+            setCount(3000);
+        }
+    }, [message]);
+    useEffect(() => {
+        if (count === 3000) {
+            setAlertSuccess(true);
+        }
+        if (count >= 0) {
+            const renderAlert = setTimeout(() => {
                 if (count === 0) {
-                    clearInterval(renderAlert);
+                    clearTimeout(renderAlert);
                     setAlertSuccess(false);
+                    setCount(-1);
                 } else {
-                    setCount((c) => c - 1000);
+                    setCount(count - 1000);
                 }
             }, count);
         }
-    }, [message, count]);
+    }, [count]);
 
     return (
         <div className='bg-white update-user-info-page position-relative'>
@@ -80,70 +91,75 @@ export default function UpdateUserInfoPage() {
             <div className='container w-100 h-100'>
                 <div className='form-container d-flex flex-column bg-white'>
                     <h3 className='mb-3 text-center'>Cập nhật tài khoản</h3>
-                    <Form className='d-flex flex-column w-100'>
-                        <FormGroup>
-                            <label htmlFor='name'>Họ Tên</label>
-                            <FormInput
-                                invalid={errors.name ? true : false}
-                                type='text'
-                                placeholder='Họ Tên'
-                                id='name'
-                                value={name}
-                                onChange={handleName}
-                            />
-                            <NameError />
-                        </FormGroup>
-                        <FormGroup>
-                            <label htmlFor='phone-number'>Số điện thoại</label>
-                            <FormInput
-                                invalid={errors.name ? true : false}
-                                type='tel'
-                                placeholder='Số điện thoại'
-                                id='phone-number'
-                                value={tel}
-                                onChange={(e) => setTel(e.target.value)}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <label htmlFor='date-of-birth'>Ngày sinh</label>
-                            <FormInput
-                                value={dateOfBirth}
-                                onChange={(e) => setDateOfBirth(e.target.value)}
-                                type='date'
-                                id='date-of-birth'
-                            />
-                        </FormGroup>
-                        <FormGroup className='d-flex flex-column'>
-                            <label className='d-inline' htmlFor='profile-image'>
-                                Ảnh đại diện
-                            </label>
-                            <input onChange={uploadImage} type='file' accept='image/*' id='profile-image' />
-                            <label htmlFor='profile-image' className='preview-image'>
-                                {(imageURLOfUser || profileImageURL) && !isUploading ? (
-                                    <img alt='' src={profileImageURL ? profileImageURL : imageURLOfUser} />
-                                ) : (
-                                    <span>
-                                        {isUploading ? (
-                                            <i className='fas fa-circle-notch' />
-                                        ) : (
-                                            <i className='fas fa-plus' />
-                                        )}
-                                    </span>
-                                )}
-                            </label>
-                        </FormGroup>
+                    <Form className='d-flex w-100'>
+                        <div className='col-of-form'>
+                            <FormGroup>
+                                <label htmlFor='name'>Họ Tên</label>
+                                <FormInput
+                                    type='text'
+                                    placeholder={nameErrorMesage ? nameErrorMesage : "Họ Tên"}
+                                    id='name'
+                                    value={name}
+                                    onChange={handleName}
+                                    invalid={nameErrorMesage ? true : false}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <label htmlFor='phone-number'>Số điện thoại</label>
+                                <FormInput
+                                    invalid={errors.name ? true : false}
+                                    type='tel'
+                                    placeholder='Số điện thoại'
+                                    id='phone-number'
+                                    value={tel}
+                                    onChange={(e) => setTel(e.target.value)}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <label htmlFor='date-of-birth'>Ngày sinh</label>
+                                <FormInput
+                                    value={dateOfBirth}
+                                    onChange={handleDateOfBirth}
+                                    type='date'
+                                    id='date-of-birth'
+                                />
+                            </FormGroup>
+                        </div>
+                        <div className='col-of-form'>
+                            <FormGroup className='d-flex flex-column'>
+                                <label className='d-inline' htmlFor='profile-image'>
+                                    Ảnh đại diện
+                                </label>
+                                <input onChange={uploadImage} type='file' accept='image/*' id='profile-image' />
+                                <label htmlFor='profile-image' className='preview-image'>
+                                    {(imageURLOfUser || profileImageURL) && !isUploading ? (
+                                        <img alt='' src={profileImageURL ? profileImageURL : imageURLOfUser} />
+                                    ) : (
+                                        <span>
+                                            {isUploading ? (
+                                                <i className='fas fa-circle-notch' />
+                                            ) : (
+                                                <i className='fas fa-plus' />
+                                            )}
+                                        </span>
+                                    )}
+                                </label>
+                            </FormGroup>
 
-                        <Button
-                            className='w-50 align-self-center'
-                            disabled={isLoading}
-                            type='submit'
-                            onClick={submitForm}
-                        >
-                            {isLoading ? "Đang Cập Nhật ..." : "Cập Nhật"}
-                        </Button>
+                            <Button
+                                className='w-50 align-self-center'
+                                disabled={isLoading}
+                                type='submit'
+                                onClick={submitForm}
+                            >
+                                {isLoading ? "Đang Cập Nhật ..." : "Cập Nhật"}
+                            </Button>
+                        </div>
                     </Form>
                 </div>
             </div>
         </div>
     );
 }
+
+export default withHeader(UpdateUserInfoPage);
