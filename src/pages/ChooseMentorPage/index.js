@@ -35,6 +35,8 @@ function ChooseMentorPage(props) {
                 setSelectedMentor(mentor);
                 setOpenChatBox(true);
                 dispatch(connectMentor([currentUser.id, mentor.user.id]));
+            } else if (isAuthenticated && selectMentor.id === mentor.id) {
+                setOpenChatBox(true);
             } else if (!isAuthenticated) {
                 props.history.push(`/sign-in?mentor=${mentor.id}`);
             }

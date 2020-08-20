@@ -18,17 +18,22 @@ export const getMentorsList = () => async (dispatch) => {
     }
 };
 
-const getRoomsStart = () => ({
-    type: actionTypes.GET_ROOMS_START,
+const updateMentorInfoStart = () => ({
+    type: actionTypes.UPDATE_MENTOR_INFO_START,
 });
-const getRoomsSuccess = (roomsList) => ({
-    type: actionTypes.GET_ROOMS_SUCCESS,
-    payload: roomsList,
+const updateMentorInfoSuccess = () => ({
+    type: actionTypes.UPDATE_MENTOR_INFO_SUCCESS,
 });
-export const getRooms = () => async (dispatch) => {
-    dispatch(getRoomsStart());
-    const data = await api.get("/rooms");
-    if (Array.isArray(data)) {
-        dispatch(getRoomsSuccess(data));
+const updateMentorInfoErr = (errors) => ({
+    type: actionTypes.UPDATE_MENTOR_INFO_FAIL,
+    payload: errors,
+});
+export const updateMentorInfo = (mentorId, mentorInfo) => async (dispatch) => {
+    dispatch(updateMentorInfoStart());
+    const data = await api.put(`/mentors/${mentorId}`, mentorInfo);
+    if (data.message?.includes("success")) {
+        dispatch(updateMentorInfoSuccess());
+    } else {
+        dispatch(updateMentorInfoErr(data));
     }
 };

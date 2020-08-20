@@ -89,7 +89,7 @@ class SignUpPage extends Component {
                 {/* <div className='container w-100 h-100'> */}
                 <div className='form-container d-flex flex-column bg-white'>
                     <h3 className='mb-3 text-center'>Đăng ký tài khoản</h3>
-                    <Form className='d-flex flex-column w-100' onSubmit={this.submitForm}>
+                    <Form className='d-flex flex-column w-100'>
                         <FormGroup>
                             <label htmlFor='email'>Email</label>
                             <FormInput
@@ -134,7 +134,7 @@ class SignUpPage extends Component {
                             <ConfirmPasswordError />
                         </FormGroup>
                         <Button
-                            className='w-50 align-self-center'
+                            className='w-100 align-self-center'
                             disabled={isLoading}
                             type='submit'
                             onClick={this.submitForm}

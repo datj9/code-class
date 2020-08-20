@@ -22,7 +22,7 @@ export default function ChatBox({ mentor, toggleChatBox }) {
 
     const sendMessage = (e) => {
         e.preventDefault();
-        socket.emit("room", { roomId: room.id, userId: currentUser.id, message });
+        socket.emit("room", { roomId: room.id, userId: currentUser.id, message: message.trim() });
         setMessage("");
     };
 
@@ -60,18 +60,26 @@ export default function ChatBox({ mentor, toggleChatBox }) {
                             }`}
                             key={msg.id}
                         >
-                            {currentUser.id !== msg.sender.id ? <span className='avatar'></span> : null}
-                            <span className='message'> {msg.text}</span>
+                            {currentUser.id !== msg.sender.id ? (
+                                <span className='avatar'>
+                                    {msg.sender.profileImageURL ? (
+                                        <img alt='' src={msg.sender.profileImageURL} />
+                                    ) : (
+                                        <span>{msg.sender.shortName}</span>
+                                    )}
+                                </span>
+                            ) : null}
+                            <span className='message'>{msg.text}</span>
                         </div>
                     ))}
                 </div>
             </div>
-            <Form onSubmit={sendMessage}>
+            <Form>
                 <FormGroup className='mb-0 d-flex align-items-center message-input'>
                     <FormInput placeholder='Tin Nhắn' value={message} onChange={handleMessage} />
                 </FormGroup>
                 <FormGroup className='mb-0 d-flex align-items-center submit-btn'>
-                    <Button type='submit' pill>
+                    <Button onClick={sendMessage} disabled={isConnecting} type='submit' pill>
                         Gửi
                     </Button>
                 </FormGroup>

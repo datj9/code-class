@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./style.scss";
-import { Form, FormInput, FormGroup, Button, Alert } from "shards-react";
+import { Form, FormInput, FormGroup, Button, Alert, FormSelect, FormCheckbox } from "shards-react";
 import { clearErrors, uploadProfileImage, updateUserInfo } from "../../redux/user/actions";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import withHeader from "../../HOC/withHeader";
+import { updateMentorInfo } from "../../redux/mentor/actions";
 
 function UpdateUserInfoPage() {
     const [name, setName] = useState("");
@@ -12,16 +13,30 @@ function UpdateUserInfoPage() {
     const [dateOfBirth, setDateOfBirth] = useState("2000-08-19");
     const [selectedDate, setSelectedDate] = useState(false);
     const [imageURLOfUser, setImageURLOfUser] = useState("");
+    const [currentJob, setCurrentJob] = useState("");
+    const [numberOfYearsExperience, setNumberOfYearsExperience] = useState(0);
+    const [specialities, setSpecialities] = useState({
+        React: false,
+        Angular: false,
+        Vue: false,
+        NodeJS: false,
+        JavaScript: false,
+    });
     const [alertSuccess, setAlertSuccess] = useState(false);
     const [count, setCount] = useState(-1);
     const [nameErrorMesage, setNameErrorMesage] = useState("");
+    const [currentJobErrMsg, setCurrentJobErrMsg] = useState("");
+    const [yearExpErrMsg, setYearExpErrMsg] = useState("");
+    const [specsErrMsg, setspecsErrMsg] = useState("");
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user.currentUser);
-    const isLoading = useSelector((state) => state.user.isLoading);
+    const isUpdatingUser = useSelector((state) => state.user.isLoading);
+    const isUpdatingMentor = useSelector((state) => state.mentor.isLoading);
     const isUploading = useSelector((state) => state.user.isUploading);
     const errors = useSelector((state) => state.user.errors);
     const profileImageURL = useSelector((state) => state.user.profileImageURL);
-    const message = useSelector((state) => state.user.message);
+    const messageUpdateUser = useSelector((state) => state.user.message);
+    const messageUpdateMentor = useSelector((state) => state.mentor.message);
     const handleName = (e) => {
         setName(e.target.value);
     };
@@ -34,6 +49,11 @@ function UpdateUserInfoPage() {
         if (!selectedDate) {
             setSelectedDate(true);
         }
+    };
+    const handleSpecialities = (spec) => {
+        const specs = specialities;
+        specs[spec] = !specs[spec];
+        setSpecialities({ ...specs });
     };
     const submitForm = (e) => {
         e.preventDefault();
@@ -50,6 +70,44 @@ function UpdateUserInfoPage() {
             setNameErrorMesage("Vui lòng nhập họ tên");
         }
     };
+    const submitFormUpdateMentorInfo = (e) => {
+        e.preventDefault();
+        const selectedSpecs = Object.keys(specialities).filter((spec) => specialities[spec] === true);
+
+        if (
+            currentJob &&
+            numberOfYearsExperience >= 0 &&
+            numberOfYearsExperience % 0.5 === 0 &&
+            selectedSpecs.length > 0
+        ) {
+            dispatch(
+                updateMentorInfo(currentUser.mentorId, {
+                    currentJob,
+                    numberOfYearsExperience: +numberOfYearsExperience,
+                    specialities: selectedSpecs,
+                    userId: currentUser.id,
+                })
+            );
+        } else {
+            if (!currentJob) {
+                setCurrentJobErrMsg("Vui lòng nhập công việc hiện tại");
+            } else {
+                setCurrentJobErrMsg("");
+            }
+            if (numberOfYearsExperience < 0) {
+                setYearExpErrMsg("Số năm kinh nghiệm phải lớn hơn 0");
+            } else if (numberOfYearsExperience % 0.5 !== 0) {
+                setYearExpErrMsg("Số năm kinh nghiệm chỉ được nhập 0, 0.5, 1, 1.5,...");
+            } else {
+                setYearExpErrMsg("");
+            }
+            if (selectedSpecs.length === 0) {
+                setspecsErrMsg("Vui lòng chọn những ngôn ngữ, framework bạn có thể mentor");
+            } else {
+                setspecsErrMsg("");
+            }
+        }
+    };
 
     useEffect(() => {
         setName(currentUser.name);
@@ -57,15 +115,35 @@ function UpdateUserInfoPage() {
         setImageURLOfUser(currentUser.profileImageURL);
         setDateOfBirth(dayjs(currentUser.dateOfBirth ? currentUser.dateOfBirth : Date.now()).format("YYYY-MM-DD"));
 
+        if (currentUser.userType === "mentor") {
+            const specs = {};
+            currentUser.specialities.forEach((spec) => (specs[spec] = true));
+
+            setSpecialities((specialities) => ({ ...specialities, ...specs }));
+            setCurrentJob(currentUser.currentJob);
+            setNumberOfYearsExperience(currentUser.numberOfYearsExperience);
+        }
+
         return () => {
             dispatch(clearErrors());
         };
-    }, [dispatch, currentUser.name, currentUser.phoneNumber, currentUser.profileImageURL, currentUser.dateOfBirth]);
+    }, [
+        dispatch,
+        currentUser.name,
+        currentUser.phoneNumber,
+        currentUser.profileImageURL,
+        currentUser.dateOfBirth,
+        currentUser.currentJob,
+        currentUser.specialities,
+        currentUser.numberOfYearsExperience,
+        currentUser.userType,
+    ]);
+
     useEffect(() => {
-        if (message === "success") {
+        if (messageUpdateUser === "success" || messageUpdateMentor === "success") {
             setCount(3000);
         }
-    }, [message]);
+    }, [messageUpdateUser, messageUpdateMentor]);
     useEffect(() => {
         if (count === 3000) {
             setAlertSuccess(true);
@@ -89,9 +167,9 @@ function UpdateUserInfoPage() {
                 Đã cập nhật thông tin thành công
             </Alert>
             <div className='container w-100 h-100'>
-                <div className='form-container d-flex flex-column bg-white'>
-                    <h3 className='mb-3 text-center'>Cập nhật tài khoản</h3>
-                    <Form className='d-flex w-100'>
+                <div className='form-container bg-white'>
+                    <div className='h4 font-weight-bold'>Cập nhật thông tin cá nhân</div>
+                    <Form className='d-flex mb-3 form-update-user-info'>
                         <div className='col-of-form'>
                             <FormGroup>
                                 <label htmlFor='name'>Họ Tên</label>
@@ -145,17 +223,90 @@ function UpdateUserInfoPage() {
                                     )}
                                 </label>
                             </FormGroup>
-
                             <Button
-                                className='w-50 align-self-center'
-                                disabled={isLoading}
+                                className='w-100 align-self-center'
+                                disabled={isUpdatingUser}
                                 type='submit'
                                 onClick={submitForm}
                             >
-                                {isLoading ? "Đang Cập Nhật ..." : "Cập Nhật"}
+                                {isUpdatingUser ? "Đang Cập Nhật ..." : "Cập Nhật"}
                             </Button>
                         </div>
                     </Form>
+
+                    {currentUser.userType !== "mentor" ? null : (
+                        <Form className='mt-3'>
+                            <div className='h4 font-weight-bold'>Cập nhật thông tin mentor</div>
+                            <div className='current-job-and-yearsexp-wp d-flex'>
+                                <FormGroup>
+                                    <label>Công việc hiện tại</label>
+                                    <FormSelect
+                                        invalid={currentJobErrMsg ? true : false}
+                                        value={currentJob}
+                                        onChange={(e) => setCurrentJob(e.target.value)}
+                                    >
+                                        <option value=''>Chọn công việc hiện tại</option>
+                                        <option>Front-end Developer</option>
+                                        <option>Back-end Developer</option>
+                                        <option>Web Developer</option>
+                                        <option>Mobile Developer</option>
+                                        <option>Full-stack Developer</option>
+                                    </FormSelect>
+                                    {currentJobErrMsg ? <div className='text-danger'>{currentJobErrMsg}</div> : null}
+                                </FormGroup>
+                                <FormGroup>
+                                    <label>Số năm kinh nghiệm</label>
+                                    <FormInput
+                                        invalid={yearExpErrMsg ? true : false}
+                                        placeholder='Nhập số năm kinh nghiệm'
+                                        type='number'
+                                        value={numberOfYearsExperience}
+                                        onChange={(e) => setNumberOfYearsExperience(e.target.value)}
+                                    />
+                                    {yearExpErrMsg ? <div className='text-danger'>{yearExpErrMsg}</div> : null}
+                                </FormGroup>
+                            </div>
+                            <FormGroup>
+                                <label>Chọn ngôn ngữ, framework có thể mentor </label>
+                                <FormCheckbox
+                                    checked={specialities.React === true ? true : false}
+                                    onChange={() => handleSpecialities("React")}
+                                >
+                                    React
+                                </FormCheckbox>
+                                <FormCheckbox
+                                    checked={specialities.Angular}
+                                    onChange={() => handleSpecialities("Angular")}
+                                >
+                                    Angular
+                                </FormCheckbox>
+                                <FormCheckbox checked={specialities.Vue} onChange={() => handleSpecialities("Vue")}>
+                                    Vue
+                                </FormCheckbox>
+                                <FormCheckbox
+                                    checked={specialities.NodeJS}
+                                    onChange={() => handleSpecialities("NodeJS")}
+                                >
+                                    NodeJS
+                                </FormCheckbox>
+                                <FormCheckbox
+                                    checked={specialities.JavaScript}
+                                    onChange={() => handleSpecialities("JavaScript")}
+                                >
+                                    JavaScript
+                                </FormCheckbox>
+                                {specsErrMsg ? <div className='text-danger'>{specsErrMsg}</div> : null}
+                            </FormGroup>
+                            <Button
+                                className='w-100 align-self-center'
+                                disabled={isUpdatingMentor}
+                                type='submit'
+                                onClick={submitFormUpdateMentorInfo}
+                            >
+                                {isUpdatingMentor ? "Đang Cập Nhật ..." : "Cập Nhật"}
+                            </Button>
+                        </Form>
+                    )}
                 </div>
             </div>
         </div>

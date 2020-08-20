@@ -4,7 +4,7 @@ import { Button, Collapse } from "shards-react";
 import { Link, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { signOut } from "../../redux/user/actions";
-import { getRooms } from "../../redux/mentor/actions";
+import { getRooms } from "../../redux/chat/actions";
 
 class Header extends Component {
     constructor(props) {
@@ -14,6 +14,8 @@ class Header extends Component {
         this.collapseMenuRef = createRef();
         this.accountIconRef = createRef();
         this.accountMenuRef = createRef();
+        this.chatHistoryIconRef = createRef();
+        this.chatHistoryBoxRef = createRef();
     }
     toggleNavbar = () => {
         this.setState((state) => ({ collapseOpen: !state.collapseOpen, accountMenuOpen: false }));
@@ -50,33 +52,47 @@ class Header extends Component {
             !this.accountMenuRef.current?.contains(e.target)
         ) {
             this.closeAccountMenu();
+        } else if (
+            this.state.chatHistoryBoxOpen &&
+            !this.chatHistoryIconRef.current?.contains(e.target) &&
+            !this.chatHistoryBoxRef.current?.contains(e.target)
+        ) {
+            this.closeHistoryChatBox();
         }
     };
 
     componentDidMount() {
         document.addEventListener("mousedown", this.handleClick);
-        this.props.getRooms();
+        if (this.props.isAuthenticated) {
+            this.props.getRooms();
+        }
     }
     componentWillUnmount() {
         document.removeEventListener("mousedown", this.handleClick);
     }
     render() {
-        const { currentUser, isAuthenticated, roomsList } = this.props;
+        const { currentUser, isAuthenticated, roomsList, loaded, isFetchingRooms } = this.props;
         const { collapseOpen, accountMenuOpen, chatHistoryBoxOpen } = this.state;
 
         const ChatHistoryBox = () => (
-            <div className='chat-history position-absolute'>
-                {roomsList.map((room) => (
-                    <div key={room.id} className='d-flex justify-content-start mb-3'>
-                        <div className='img-container rounded-circle'>
-                            <img src={room.receiver.profileImageURL} alt='' />
+            <div ref={this.chatHistoryBoxRef} className='chat-history position-absolute'>
+                {isFetchingRooms ? (
+                    <div className='text-center'>Đang tải...</div>
+                ) : loaded && roomsList.length === 0 ? (
+                    <div className='text-center'>Bạn chưa có cuộc trò chuyện nào</div>
+                ) : (
+                    roomsList.map((room) => (
+                        <div key={room.id} className='d-flex justify-content-start mb-3'>
+                            <div className='img-container rounded-circle'>
+                                <img src={room.receiver.profileImageURL} alt='' />
+                            </div>
+                            <div className='message-and-name d-flex flex-column'>
+                                <span className='font-weight-bold name'>{room.receiver.name}</span>
+                                <span className='message'>{room.lastestMessage.text}</span>
+                            </div>
                         </div>
-                        <div className='message-and-name d-flex flex-column'>
-                            <span className='font-weight-bold name'>{room.receiver.name}</span>
-                            <span className='message'>{room.lastestMessage.text}</span>
-                        </div>
-                    </div>
-                ))}
+                    ))
+                )}
             </div>
         );
 
@@ -105,7 +121,7 @@ class Header extends Component {
                         </li>
                         {isAuthenticated ? (
                             <li className='inbox nav-item align-items-center justify-content-center position-relative'>
-                                <span role='button' onClick={this.toggleHistoryChatBox}>
+                                <span ref={this.chatHistoryIconRef} role='button' onClick={this.toggleHistoryChatBox}>
                                     <i className='fas fa-inbox' />
                                 </span>
                                 {chatHistoryBoxOpen ? <ChatHistoryBox /> : null}
@@ -131,7 +147,10 @@ class Header extends Component {
                 </Collapse>
                 {isAuthenticated ? (
                     <div className='top-right-icons-wrapper d-flex'>
-                        <span className='inbox-small-screen align-self-center mr-3 position-relative'>
+                        <span
+                            ref={this.chatHistoryIconRef}
+                            className='inbox-small-screen align-self-center mr-3 position-relative'
+                        >
                             <span role='button'>
                                 <i className='fas fa-inbox' onClick={this.toggleHistoryChatBox} />
                             </span>
@@ -208,7 +227,9 @@ class Header extends Component {
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser,
     isAuthenticated: state.user.isAuthenticated,
-    roomsList: state.mentor.roomsList,
+    roomsList: state.chat.roomsList,
+    loaded: state.chat.loaded,
+    isFetchingRooms: state.chat.isFetchingRooms,
 });
 const mapDispatchToProps = (dispatch) => ({
     signOut: () => dispatch(signOut()),
