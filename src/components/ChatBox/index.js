@@ -8,7 +8,7 @@ import { ADD_MESSAGE_INTO_LIST } from "../../redux/chat/action-types";
 
 const socket = io.connect(apiUrl);
 
-export default function ChatBox({ mentor, toggleChatBox }) {
+export default function ChatBox({ receiver, closeChatBox }) {
     const [message, setMessage] = useState("");
     const currentUser = useSelector((state) => state.user.currentUser);
     const isConnecting = useSelector((state) => state.chat.isConnecting);
@@ -40,13 +40,13 @@ export default function ChatBox({ mentor, toggleChatBox }) {
 
     useEffect(() => {
         setMessage("");
-    }, [mentor.id]);
+    }, [receiver.id]);
 
     return (
         <div className='chat-box'>
             <div className='header d-flex justify-content-between px-2'>
-                <span className='d-flex align-self-center'>{mentor.user.name}</span>
-                <span onClick={toggleChatBox} role='button' className='d-flex align-items-center'>
+                <span className='d-flex align-self-center'>{receiver.user?.name || receiver.name}</span>
+                <span onClick={closeChatBox} role='button' className='d-flex align-items-center'>
                     <i className='fas fa-times'></i>
                 </span>
             </div>
@@ -61,11 +61,13 @@ export default function ChatBox({ mentor, toggleChatBox }) {
                             key={msg.id}
                         >
                             {currentUser.id !== msg.sender.id ? (
-                                <span className='avatar'>
+                                <span className='avatar bg-primary text-white'>
                                     {msg.sender.profileImageURL ? (
                                         <img alt='' src={msg.sender.profileImageURL} />
                                     ) : (
-                                        <span>{msg.sender.shortName}</span>
+                                        <span className='d-flex w-100 h-100 justify-content-center align-items-center'>
+                                            {msg.sender.shortName}
+                                        </span>
                                     )}
                                 </span>
                             ) : null}

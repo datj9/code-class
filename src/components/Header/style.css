@@ -53,7 +53,7 @@
     position: absolute;
     right: 0.5rem;
 }
-.fa-inbox {
+.fa-comment-dots {
     font-size: 1.5rem;
 }
 .profile-image {
@@ -148,6 +148,9 @@
     }
 }
 @media only screen and (min-width: 768px) {
+    .nav-item:not(:last-child) {
+        margin-right: 1rem;
+    }
     .btn-wp {
         display: none;
     }

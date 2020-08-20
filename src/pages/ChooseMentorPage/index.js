@@ -29,13 +29,13 @@ function ChooseMentorPage(props) {
     const closeModalInfo = () => {
         setModalInfoIsOpening(false);
     };
-    const selectMentor = useCallback(
+    const chooseMentor = useCallback(
         (mentor) => {
             if (isAuthenticated && selectedMentor.id !== mentor.id) {
                 setSelectedMentor(mentor);
                 setOpenChatBox(true);
                 dispatch(connectMentor([currentUser.id, mentor.user.id]));
-            } else if (isAuthenticated && selectMentor.id === mentor.id) {
+            } else if (isAuthenticated && selectedMentor.id === mentor.id) {
                 setOpenChatBox(true);
             } else if (!isAuthenticated) {
                 props.history.push(`/sign-in?mentor=${mentor.id}`);
@@ -54,9 +54,9 @@ function ChooseMentorPage(props) {
     useEffect(() => {
         if (mentorId && mentorsList?.length) {
             const mentor = mentorsList.find((m) => m.id === mentorId);
-            selectMentor(mentor);
+            chooseMentor(mentor);
         }
-    }, [mentorsList, mentorId, selectMentor]);
+    }, [mentorsList, mentorId, chooseMentor]);
 
     const LoaderList = () => {
         const list = [];
@@ -147,12 +147,12 @@ function ChooseMentorPage(props) {
                                         <span className='mr-2'>Có thể mentor</span>
                                         {mentor.specialities.length > 3
                                             ? mentor.specialities.slice(0, 3).map((speciality, i) => (
-                                                  <>
-                                                      <Badge key={speciality} className='mr-1' theme='dark'>
+                                                  <span key={speciality}>
+                                                      <Badge className='mr-1' theme='dark'>
                                                           {speciality}
                                                       </Badge>
                                                       {i === 2 ? <Badge theme='dark'>...</Badge> : null}
-                                                  </>
+                                                  </span>
                                               ))
                                             : mentor.specialities.map((speciality) => (
                                                   <Badge key={speciality} className='mr-1' theme='dark'>
@@ -162,7 +162,7 @@ function ChooseMentorPage(props) {
                                     </div>
                                 </div>
                                 <div className='buttons-wp d-flex'>
-                                    <Button onClick={() => selectMentor(mentor)} className='mb-1'>
+                                    <Button onClick={() => chooseMentor(mentor)} className='mb-1'>
                                         Chọn Mentor
                                     </Button>
                                     <Button className='mt-1' theme='light' onClick={() => openModalInfo(mentor)}>
@@ -173,7 +173,7 @@ function ChooseMentorPage(props) {
                         ))}
                     </div>
                 )}
-                {openChatBox ? <ChatBox mentor={selectedMentor} toggleChatBox={closeChatBox} /> : null}
+                {openChatBox ? <ChatBox receiver={selectedMentor} closeChatBox={closeChatBox} /> : null}
             </Container>
             <Modal open={modalInfoIsOpening} toggle={closeModalInfo} backdropClassName='backdrop-info-modal'>
                 <ModalHeader>Thông tin Mentor</ModalHeader>
