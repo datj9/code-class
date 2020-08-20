@@ -4,11 +4,12 @@ import { Button, Collapse } from "shards-react";
 import { Link, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { signOut } from "../../redux/user/actions";
+import { getRooms } from "../../redux/mentor/actions";
 
 class Header extends Component {
     constructor(props) {
         super(props);
-        this.state = { collapseOpen: false, accountMenuOpen: false };
+        this.state = { collapseOpen: false, accountMenuOpen: false, chatHistoryBoxOpen: false };
         this.navbarTogglerRef = createRef();
         this.collapseMenuRef = createRef();
         this.accountIconRef = createRef();
@@ -25,6 +26,12 @@ class Header extends Component {
     };
     closeAccountMenu = () => {
         this.setState({ accountMenuOpen: false });
+    };
+    toggleHistoryChatBox = () => {
+        this.setState({ chatHistoryBoxOpen: !this.state.chatHistoryBoxOpen });
+    };
+    closeHistoryChatBox = () => {
+        this.setState({ chatHistoryBoxOpen: false });
     };
     signOutReq = () => {
         this.toggleAccountMenu();
@@ -48,40 +55,62 @@ class Header extends Component {
 
     componentDidMount() {
         document.addEventListener("mousedown", this.handleClick);
+        this.props.getRooms();
     }
     componentWillUnmount() {
         document.removeEventListener("mousedown", this.handleClick);
     }
     render() {
-        const { currentUser, isAuthenticated } = this.props;
-        const { collapseOpen, accountMenuOpen } = this.state;
-        const {
-            toggleNavbar,
-            closeNavbar,
-            toggleAccountMenu,
-            navbarTogglerRef,
-            collapseMenuRef,
-            accountIconRef,
-            accountMenuRef,
-        } = this;
+        const { currentUser, isAuthenticated, roomsList } = this.props;
+        const { collapseOpen, accountMenuOpen, chatHistoryBoxOpen } = this.state;
+
+        const ChatHistoryBox = () => (
+            <div className='chat-history position-absolute'>
+                {roomsList.map((room) => (
+                    <div key={room.id} className='d-flex justify-content-start mb-3'>
+                        <div className='img-container rounded-circle'>
+                            <img src={room.receiver.profileImageURL} alt='' />
+                        </div>
+                        <div className='message-and-name d-flex flex-column'>
+                            <span className='font-weight-bold name'>{room.receiver.name}</span>
+                            <span className='message'>{room.lastestMessage.text}</span>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        );
+
         return (
             <div id='header' className='navbar navbar-expand-md navbar-light bg-white'>
                 <div className='d-flex'>
-                    <button ref={navbarTogglerRef} className='navbar-toggler' type='button' onClick={toggleNavbar}>
+                    <button
+                        ref={this.navbarTogglerRef}
+                        className='navbar-toggler'
+                        type='button'
+                        onClick={this.toggleNavbar}
+                    >
                         <span className='navbar-toggler-icon'></span>
                     </button>
-                    <NavLink onClick={closeNavbar} to='/' className='brand text-dark text-decoration-none'>
+                    <NavLink onClick={this.closeNavbar} to='/' className='brand text-dark text-decoration-none'>
                         Code Class
                     </NavLink>
                 </div>
 
                 <Collapse className='justify-content-end bg-white' open={collapseOpen} navbar>
-                    <div ref={collapseMenuRef} className='navbar-nav'>
+                    <div ref={this.collapseMenuRef} className='navbar-nav'>
                         <li className='nav-item d-flex align-items-center justify-content-center'>
-                            <NavLink onClick={closeNavbar} className='nav-link' to='/mentors'>
+                            <NavLink onClick={this.closeNavbar} className='nav-link' to='/mentors'>
                                 Mentor
                             </NavLink>
                         </li>
+                        {isAuthenticated ? (
+                            <li className='inbox nav-item align-items-center justify-content-center position-relative'>
+                                <span role='button' onClick={this.toggleHistoryChatBox}>
+                                    <i className='fas fa-inbox' />
+                                </span>
+                                {chatHistoryBoxOpen ? <ChatHistoryBox /> : null}
+                            </li>
+                        ) : null}
                         {isAuthenticated ? null : (
                             <li className='nav-item large-screen-signup-btn'>
                                 <NavLink className='nav-link' to='/sign-up'>
@@ -101,16 +130,28 @@ class Header extends Component {
                     </div>
                 </Collapse>
                 {isAuthenticated ? (
-                    <span ref={accountIconRef} role='button' onClick={toggleAccountMenu} className='profile-image'>
-                        {currentUser.profileImageURL ? (
-                            <img src={currentUser.profileImageURL} alt='profile' />
-                        ) : (
-                            <span className='name-icon w-100 h-100 d-flex align-items-center justify-content-center rounded-circle bg-primary text-white'>
-                                {currentUser.name.trim().split(" ")[0][0]}
-                                {currentUser.name.trim().split(" ")[currentUser.name.trim().split(" ").length - 1][0]}
+                    <div className='top-right-icons-wrapper d-flex'>
+                        <span className='inbox-small-screen align-self-center mr-3 position-relative'>
+                            <span role='button'>
+                                <i className='fas fa-inbox' onClick={this.toggleHistoryChatBox} />
                             </span>
-                        )}
-                    </span>
+                            {chatHistoryBoxOpen ? <ChatHistoryBox /> : null}
+                        </span>
+                        <span
+                            ref={this.accountIconRef}
+                            role='button'
+                            onClick={this.toggleAccountMenu}
+                            className='profile-image'
+                        >
+                            {currentUser.profileImageURL ? (
+                                <img src={currentUser.profileImageURL} alt='profile' />
+                            ) : (
+                                <span className='name-icon w-100 h-100 d-flex align-items-center justify-content-center rounded-circle bg-primary text-white'>
+                                    {currentUser.shortName}
+                                </span>
+                            )}
+                        </span>
+                    </div>
                 ) : (
                     <>
                         <Link to='/sign-in' className='user-icon text-decoration-none mr-2'>
@@ -127,12 +168,12 @@ class Header extends Component {
                     </>
                 )}
                 {accountMenuOpen && isAuthenticated ? (
-                    <div ref={accountMenuRef}>
+                    <div ref={this.accountMenuRef}>
                         <ul className='account-menu bg-white'>
                             <li className='name mb-3'>{currentUser.name}</li>
                             <li>
                                 <Link
-                                    onClick={toggleAccountMenu}
+                                    onClick={this.toggleAccountMenu}
                                     className='text-primary text-decoration-none'
                                     to='/users/saved-tutorials'
                                 >
@@ -141,7 +182,7 @@ class Header extends Component {
                             </li>
                             <li className='text-primary'>
                                 <Link
-                                    onClick={toggleAccountMenu}
+                                    onClick={this.toggleAccountMenu}
                                     className='text-decoration-none'
                                     to='/users/update-info'
                                 >
@@ -167,9 +208,11 @@ class Header extends Component {
 const mapStateToProps = (state) => ({
     currentUser: state.user.currentUser,
     isAuthenticated: state.user.isAuthenticated,
+    roomsList: state.mentor.roomsList,
 });
 const mapDispatchToProps = (dispatch) => ({
     signOut: () => dispatch(signOut()),
+    getRooms: () => dispatch(getRooms()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -17,3 +17,18 @@ export const getMentorsList = () => async (dispatch) => {
         dispatch(getMentorsListSuccess(data));
     }
 };
+
+const getRoomsStart = () => ({
+    type: actionTypes.GET_ROOMS_START,
+});
+const getRoomsSuccess = (roomsList) => ({
+    type: actionTypes.GET_ROOMS_SUCCESS,
+    payload: roomsList,
+});
+export const getRooms = () => async (dispatch) => {
+    dispatch(getRoomsStart());
+    const data = await api.get("/rooms");
+    if (Array.isArray(data)) {
+        dispatch(getRoomsSuccess(data));
+    }
+};

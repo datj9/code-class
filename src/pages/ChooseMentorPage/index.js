@@ -132,10 +132,7 @@ function ChooseMentorPage(props) {
                         {mentorsList.map((mentor) => (
                             <div className='list-item' key={mentor.id}>
                                 <div className='mentor-image'>
-                                    <img
-                                        src='https://avatars2.githubusercontent.com/u/51848355?s=460&u=bf232c01c5a0c42352ef40d250ee13af51284a66&v=4'
-                                        alt=''
-                                    />
+                                    <img src={mentor.user.profileImageURL} alt='' />
                                 </div>
                                 <div className='mentor-info'>
                                     <div className='mb-1'>{mentor.user.name}</div>

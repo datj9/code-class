@@ -3,7 +3,9 @@ import * as actionTypes from "./action-types";
 const INITIAL_STATE = {
     mentorsList: [],
     mentor: {},
+    roomsList: [],
     isLoading: false,
+    isFetchingRooms: false,
 };
 
 export default function (state = INITIAL_STATE, action) {
@@ -29,6 +31,17 @@ export default function (state = INITIAL_STATE, action) {
                 ...state,
                 isLoading: false,
                 mentor: action.payload,
+            };
+        case actionTypes.GET_ROOMS_START:
+            return {
+                ...state,
+                isFetchingRooms: true,
+            };
+        case actionTypes.GET_ROOMS_SUCCESS:
+            return {
+                ...state,
+                isFetchingRooms: false,
+                roomsList: action.payload,
             };
         default:
             return state;
