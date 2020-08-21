@@ -32,11 +32,11 @@ figure img {
 }
 
 .bubble-messenger {
-    width: 3rem;
-    height: 3rem;
+    width: 4rem;
+    height: 4rem;
     position: fixed;
     right: 1rem;
-    bottom: 7rem;
+    bottom: 12rem;
 }
 .bubble-messenger img {
     width: 100%;

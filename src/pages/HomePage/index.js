@@ -183,7 +183,7 @@ class HomePage extends React.Component {
                 {this.state.showScrollBtn ? (
                     <Button
                         onClick={this.scrollTop}
-                        className='scroll-top-btn border-dark rounded-circle d-flex justify-content-center align-items-center'
+                        className='scroll-top-btn rounded-circle d-flex justify-content-center align-items-center'
                         theme='light'
                     >
                         <span>

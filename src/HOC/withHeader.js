@@ -28,9 +28,9 @@ export default function withHeader(WrappedComponent) {
 
         componentDidMount() {
             const receiver = JSON.parse(localStorage.getItem("receiver"));
-            const currentUser = this.props.currentUser;
+            const { isAuthenticated, currentUser } = this.props;
 
-            if (receiver) {
+            if (receiver && isAuthenticated) {
                 this.setState({ selectedReceiver: receiver });
                 this.props.connectMentor([currentUser.id, receiver.id]);
             }
@@ -60,6 +60,7 @@ export default function withHeader(WrappedComponent) {
 
     const mapStateToProps = (state) => ({
         currentUser: state.user.currentUser,
+        isAuthenticated: state.user.isAuthenticated,
     });
     const mapDispatchToProps = (dispatch) => ({
         connectMentor: (members) => dispatch(connectMentor(members)),

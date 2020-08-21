@@ -1,0 +1,63 @@
+.card-item {
+    width: 100%;
+    margin: 0 0 3rem;
+    display: flex;
+    flex-direction: row;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    img {
+        width: 5rem;
+        height: 5rem;
+
+        border-radius: 0.25rem;
+    }
+
+    .tutorial-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+    }
+
+    .tutorial-description {
+        font-size: 1.2rem;
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+    }
+
+    .created-at {
+        font-size: 1rem;
+    }
+
+    .badge {
+        font-size: 0.8rem;
+    }
+}
+
+@media only screen and (min-width: 576px) {
+    .card-item {
+        img {
+            height: 7rem;
+            width: 7rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .card-item {
+        img {
+            height: 9rem;
+            width: 9rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .card-item {
+        width: 45rem;
+    }
+}
