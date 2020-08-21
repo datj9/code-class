@@ -16,12 +16,17 @@
     }
 
     .tutorial-title {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         font-weight: 700;
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
     }
 
     .tutorial-description {
-        font-size: 1.2rem;
+        font-size: 1rem;
 
         display: -webkit-box;
         -webkit-box-orient: vertical;
@@ -30,7 +35,7 @@
     }
 
     .created-at {
-        font-size: 1rem;
+        font-size: 0.8rem;
     }
 
     .badge {
@@ -43,6 +48,22 @@
         img {
             height: 7rem;
             width: 7rem;
+        }
+
+        .tutorial-title {
+            font-size: 1.4rem;
+        }
+
+        .tutorial-description {
+            font-size: 1.2rem;
+        }
+
+        .created-at {
+            font-size: 1rem;
+        }
+
+        .badge {
+            font-size: 0.8rem;
         }
     }
 }

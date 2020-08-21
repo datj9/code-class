@@ -49,6 +49,7 @@ const signOutStart = () => ({
 
 export const signOut = () => (dispatch) => {
     localStorage.removeItem("token");
+    localStorage.removeItem("receiver");
     dispatch(signOutStart());
 };
 
