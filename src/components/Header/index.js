@@ -53,8 +53,8 @@ class Header extends Component {
         const currentUser = this.props.currentUser;
 
         if (selectedReceiver.id !== receiver.id) {
-            this.setState({ selectedReceiver: receiver });
-            this.setState({ chatBoxOpen: true });
+            this.setState({ selectedReceiver: receiver, chatBoxOpen: true });
+            this.closeHistoryChatBox();
             this.props.connectMentor([currentUser.id, receiver.id]);
         } else if (selectedReceiver.id === receiver.id) {
             this.setState({ chatBoxOpen: true });
@@ -240,16 +240,16 @@ class Header extends Component {
                                 <li>
                                     <Link
                                         onClick={this.toggleAccountMenu}
-                                        className='text-primary text-decoration-none'
+                                        className='d-block h-100 text-primary text-decoration-none'
                                         to='/users/saved-tutorials'
                                     >
-                                        Bài đã lưu
+                                        Tutorial đã lưu
                                     </Link>
                                 </li>
-                                <li className='text-primary'>
+                                <li>
                                     <Link
                                         onClick={this.toggleAccountMenu}
-                                        className='text-decoration-none'
+                                        className='d-block h-100 text-primary text-decoration-none'
                                         to='/users/update-info'
                                     >
                                         Cập nhật thông tin

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form, FormGroup, FormInput } from "shards-react";
@@ -10,11 +10,13 @@ const socket = io.connect(apiUrl);
 
 export default function ChatBox({ receiver, closeChatBox }) {
     const [message, setMessage] = useState("");
+    const [scrollHeightAtBottom, setScrollHeightAtBottom] = useState(0);
     const currentUser = useSelector((state) => state.user.currentUser);
     const isConnecting = useSelector((state) => state.chat.isConnecting);
     const room = useSelector((state) => state.chat.room);
     const messagesList = useSelector((state) => state.chat.messagesList);
     const dispatch = useDispatch();
+    const messagesListRef = useRef();
 
     const handleMessage = (e) => {
         setMessage(e.target.value);
@@ -42,6 +44,23 @@ export default function ChatBox({ receiver, closeChatBox }) {
         setMessage("");
     }, [receiver.id]);
 
+    useEffect(() => {
+        const chatLog = document.querySelector(".chat-container");
+        const lastestMessage = messagesList[messagesList.length - 1];
+
+        if (
+            messagesList.length > 0 &&
+            (lastestMessage.sender.id === currentUser.id ||
+                scrollHeightAtBottom === 0 ||
+                chatLog.clientHeight + chatLog.scrollTop >= scrollHeightAtBottom)
+        ) {
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+        if (messagesList.length > 0) {
+            setScrollHeightAtBottom(chatLog.scrollHeight);
+        }
+    }, [messagesList.length, scrollHeightAtBottom, currentUser.id, messagesList]);
+
     return (
         <div className='chat-box'>
             <div className='header d-flex justify-content-between px-2'>
@@ -51,11 +70,11 @@ export default function ChatBox({ receiver, closeChatBox }) {
                 </span>
             </div>
             {isConnecting ? <div className='bg-info status text-center text-white'>Đang kết nối</div> : null}
-            <div className='chat-container'>
+            <div ref={messagesListRef} className='chat-container'>
                 <div className='messages-list'>
                     {messagesList.map((msg) => (
                         <div
-                            className={`message-item mb-2 ${
+                            className={`message-item mb-3 ${
                                 currentUser.id === msg.sender.id ? "my-msg" : "friend-msg"
                             }`}
                             key={msg.id}
