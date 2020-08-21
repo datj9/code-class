@@ -85,6 +85,7 @@
     padding: 1rem;
     border: 1px solid rgb(211, 211, 211);
     z-index: 2;
+    overflow: auto;
 }
 .chat-history .img-container {
     width: 3.2rem;

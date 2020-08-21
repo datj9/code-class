@@ -5,7 +5,6 @@ import { Link, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { signOut } from "../../redux/user/actions";
 import { connectMentor, getRooms } from "../../redux/chat/actions";
-import ChatBox from "../ChatBox";
 
 class Header extends Component {
     constructor(props) {
@@ -14,8 +13,6 @@ class Header extends Component {
             collapseOpen: false,
             accountMenuOpen: false,
             chatHistoryBoxOpen: false,
-            chatBoxOpen: false,
-            selectedReceiver: {},
         };
         this.navbarTogglerRef = createRef();
         this.collapseMenuRef = createRef();
@@ -49,20 +46,22 @@ class Header extends Component {
         this.props.signOut();
     };
     chooseConservation = (receiver) => {
-        const selectedReceiver = this.state.selectedReceiver;
+        const selectedReceiver = this.props.selectedReceiver;
         const currentUser = this.props.currentUser;
 
         if (selectedReceiver.id !== receiver.id) {
-            this.setState({ selectedReceiver: receiver, chatBoxOpen: true });
+            this.props.handleReceiverChange(receiver);
+            this.props.toggleChatBox();
+            // this.setState({ chatBoxOpen: true });
             this.closeHistoryChatBox();
             this.props.connectMentor([currentUser.id, receiver.id]);
         } else if (selectedReceiver.id === receiver.id) {
-            this.setState({ chatBoxOpen: true });
+            // this.setState({ chatBoxOpen: true });
+            this.props.toggleChatBox();
+            this.closeHistoryChatBox();
         }
     };
-    closeChatBox = () => {
-        this.setState({ chatBoxOpen: false });
-    };
+
     handleClick = (e) => {
         if (
             this.state.collapseOpen &&
@@ -96,7 +95,7 @@ class Header extends Component {
     }
     render() {
         const { currentUser, isAuthenticated, roomsList, loaded, isFetchingRooms } = this.props;
-        const { collapseOpen, accountMenuOpen, chatHistoryBoxOpen, selectedReceiver, chatBoxOpen } = this.state;
+        const { collapseOpen, accountMenuOpen, chatHistoryBoxOpen } = this.state;
 
         const ChatHistoryBox = () => (
             <div className='chat-history position-absolute'>
@@ -267,7 +266,6 @@ class Header extends Component {
                         </div>
                     ) : null}
                 </div>
-                {chatBoxOpen ? <ChatBox receiver={selectedReceiver} closeChatBox={this.closeChatBox} /> : null}
             </Fragment>
         );
     }
