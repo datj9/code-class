@@ -4,12 +4,15 @@ import { connect } from "react-redux";
 import { fetchOneTutorial, clearTutorial, increaseView } from "../../redux/tutorials/actions";
 import { Button, Badge } from "shards-react";
 import parse from "html-react-parser";
-import dayjs from "dayjs";
 import ContentLoader from "react-content-loader";
 import { Link } from "react-router-dom";
 import { saveTutorial, clearErrors } from "../../redux/user/actions";
 import Prism from "prismjs";
 import withHeader from "../../HOC/withHeader";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 class TutorialPage extends Component {
     constructor(props) {
