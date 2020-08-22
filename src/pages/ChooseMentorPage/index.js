@@ -81,7 +81,7 @@ function ChooseMentorPage(props) {
             list.push(
                 <ContentLoader
                     key={i}
-                    className='list-item'
+                    className='mentor-item'
                     viewBox={isLargeScreen ? "0 0 380 33" : "0 0 380 255"}
                     backgroundColor='#bdbdbd'
                     foregroundColor='#ccc'
